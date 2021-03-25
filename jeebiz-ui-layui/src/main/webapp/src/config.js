@@ -8,7 +8,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 	exports('setter', {
 		container: 'LAY_app', // 容器ID
 		base: layui.cache.base, // 记录layuiAdmin文件夹所在路径
-		prefix: layui.cache.prefix || 'http://180.76.120.252:8090', //  应用上下文地址，如：admin/
+		prefix: layui.cache.prefix || 'http://127.0.0.1:8090', //  应用上下文地址，如：admin/
 		views: layui.cache.base + 'views/', // 视图所在目录
 		entry: 'index', //  默认视图文件名
 		engine: '.html', //  视图文件后缀名
