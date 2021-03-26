@@ -87,7 +87,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
       type: 'get',
       dataType: 'json',
       success: function (res) {
-
+		console.log(res);
         var statusCode = response.statusCode;
 
         // 只有 response 的 code 一切正常才执行 done

@@ -93,11 +93,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
       type: 'get',
       dataType: 'json',
       success: function (res) {
-
+		console.log("res", res);
         var statusCode = response.statusCode;
 
+		console.log("statusCode", statusCode);
         // 只有 response 的 code 一切正常才执行 done
-        if (res[response.statusName] == statusCode.ok) {
+        if (res[response.statusName] == '0' || res[response.statusName] === statusCode.ok) {
           typeof options.done === 'function' && options.done(res);
         }
         // 登录状态失效，清除本地 access_token，并强制跳转到登入页
