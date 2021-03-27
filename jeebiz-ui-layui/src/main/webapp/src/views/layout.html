@@ -33,7 +33,7 @@
           <i class="layui-icon layui-icon-notice"></i>
           
           <!-- 如果有新消息，则显示小圆点 -->
-          <script type="text/html" template lay-url="./json/message/new.js">
+          <script type="text/html" template lay-url="{{ layui.setter.prefix }}/inform/pending">
           {{# if(d.data.newmsg){ }} 
             <span class="layui-badge-dot"></span>
           {{# } }}
@@ -57,7 +57,7 @@
         </a>
       </li>
       <li class="layui-nav-item" lay-unselect>
-        <script type="text/html" template lay-url="./json/user/session.js" 
+        <script type="text/html" template lay-url="{{ layui.setter.prefix }}/authz/user/detail" 
         lay-done="layui.element.render('nav', 'layadmin-layout-right');">
           <a href="javascript:;">
             <cite>{{ d.data.username }}</cite>
@@ -83,11 +83,11 @@
   <!-- 侧边菜单 -->
   <div class="layui-side layui-side-menu">
     <div class="layui-side-scroll">
-      <script type="text/html" template lay-url="./json/menu.js?v={{ layui.admin.v }}" 
+      <script type="text/html" template lay-url="{{ layui.setter.prefix }}/feature/tree?v={{ layui.admin.v }}" 
       lay-done="layui.element.render('nav', 'layadmin-system-side-menu');" id="TPL_layout">
       
         <div class="layui-logo" lay-href="">
-          <span>{{ layui.setter.name || 'layuiAdmin' }}</span>
+          <span>{{ layui.setter.name || 'Jeebiz Admin' }}</span>
         </div>
         
         <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">

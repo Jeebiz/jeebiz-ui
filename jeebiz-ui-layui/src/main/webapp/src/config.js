@@ -24,14 +24,16 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 
 		//  自定义请求字段名称 
 		storage: {
-			headerName: "X-Authorization",
-			tokenName: "token"
+			headerName	: "X-Authorization",
+			tokenName	: "token",
+			language	: "zh_CN"
 		},
 
 		//  是否自动携带请求字段
 		request: {
-			headerName: true, //  自动携带 header。可设置 false 不携带。
-			tokenName: false //  自动携带 token。可设置 false 不携带。
+			headerName	: true, //  自动携带 header。可设置 false 不携带。
+			tokenName	: false, //  自动携带 token。可设置 false 不携带。
+			language	: true
 		},
 
 		// 自定义响应字段

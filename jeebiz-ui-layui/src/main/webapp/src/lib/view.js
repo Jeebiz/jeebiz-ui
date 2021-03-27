@@ -85,6 +85,10 @@ layui.define(['laytpl', 'layer'], function (exports) {
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
     }
+    if(request.language){
+    	// 自动给 Request Headers 传入 token
+    	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
+    }    
 
     delete options.success;
     delete options.error;
