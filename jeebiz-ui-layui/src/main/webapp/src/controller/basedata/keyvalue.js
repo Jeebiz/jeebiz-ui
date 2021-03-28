@@ -8,7 +8,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 	// 文章管理
 	table.render({
 		elem 	: '#LAY-keyvalue-list',
-		url 	: setter.prefix + 'extras/basedata/keyvalue/list', // 数据查询接口
+		url 	: setter.prefix + 'basedata/keyvalue/list', // 数据查询接口
 		contentType	: "application/json",
 		page	: true,
 	    method	: 'POST', //如果无需自定义HTTP类型，可不加该参数
@@ -65,7 +65,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 		//console.log(rqData);
 		// 提交更新
   		admin.req({
-	        url			: setter.prefix + 'extras/basedata/keyvalue/renew',
+	        url			: setter.prefix + 'basedata/keyvalue/renew',
 	        type 		: "POST",
 	        contentType	: "application/json",
 	        data		: JSON.stringify(rqData),
@@ -91,7 +91,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 			id = $(obj.elem).data("id");
 	    // 提交更新
   		admin.req({
-	        url			: setter.prefix + 'extras/basedata/keyvalue/status',
+	        url			: setter.prefix + 'basedata/keyvalue/status',
 	        type 		: "post",
 	        data		: {
 	        	"id" 	: id,
@@ -118,7 +118,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 	    if(obj.event === 'del'){
 	    	layer.confirm('确定删除当前的数据吗？', function(index){
 		      	admin.req({
-		  	        url			: setter.prefix + 'extras/basedata/keyvalue/delete',
+		  	        url			: setter.prefix + 'basedata/keyvalue/delete',
 		  	        type 		: "post",
 		  	        data		: {"ids" : id},
 		  	        success		: function(res){
@@ -145,7 +145,7 @@ layui.define([ 'table', 'form' ], function(exports) {
     		layer.open({ 
     			type	: 2,
     			title	: '新建基础数据',
-    			content	: setter.prefix + 'extras/basedata/keyvalue/ui/new',
+    			content	: setter.prefix + 'basedata/keyvalue/ui/new',
     			area	: ['600px', '400px'],
     			btn		: ['确定', '取消'],
     			yes		: function(index, layero){
@@ -157,7 +157,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 		            	var field = data.field; //获取提交的字段
 		            	// 提交更新
 		          		admin.req({
-		        	        url			: setter.prefix + 'extras/basedata/keyvalue/new',
+		        	        url			: setter.prefix + 'basedata/keyvalue/new',
 		        	        type 		: "post",
 		        	        contentType	: "application/json",
 		        	        dataType	: "json",

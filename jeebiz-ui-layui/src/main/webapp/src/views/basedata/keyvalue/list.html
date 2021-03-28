@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh_CN" 
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="zh_CN" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   	<title>基础数据</title>
-  	<meta charset="utf-8">
-  	<meta name="renderer" content="webkit">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  	<link rel="stylesheet" th:href="@{/assets/layuiadmin/layui/css/layui.css}" media="all">
-	<link rel="stylesheet" th:href="@{/assets/layuiadmin/style/admin.css}"	media="all">
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 </head>
 <body>
 
@@ -60,25 +54,8 @@
 		</div>
 	</div>
 	
-	<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script>
-  	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-  	<!--[if lt IE 9]>
-  	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-  	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-  	<![endif]--> 
-  	<script type="text/javascript" th:inline="javascript">
-   	/*<![CDATA[*/
-   	var ctxPath = /*[[@{/}]]*/'';
-    var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
-   	/*]]>*/
-  	layui.config({
-	  	base 	: basePath,  //静态资源所在路径
-	  	prefix	: ctxPath,
-	  	version	: "20180921"
-  	}).extend({
-  		index	: "lib/index", //主入口模块
-  		keyvalue: "extras/basedata/keyvalue"
-  	}).use(['index', 'table', 'keyvalue']);
+  	<script type="text/javascript">   
+  	layui.use(['basedata/keyvalue']);
   	</script>
 </body>
 </html>

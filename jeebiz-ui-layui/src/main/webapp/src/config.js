@@ -175,12 +175,22 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 		theme: {
 			// 内置主题配色方案
 			color: [{
-				main: '#20222A' // 主题色
-					,
-				selected: '#009688' // 选中色
-					,
-				alias: 'default' // 默认别名
-			}, {
+				main: '#20222A', // 主题色					
+				selected: '#009688', // 选中色					
+				alias: 'default' // 默认别名			
+			}, 
+			{
+				main: '#1E9FFF', // 主题色					
+				selected: '#1E9FFF', // 选中色
+				alias: 'yellow-blue' // 藏蓝
+			}, 
+			{
+				main: '#344058',
+				selected: '#344058',
+				alias: 'yellow-blue' // 藏蓝
+			}, 
+			
+			{
 				main: '#03152A',
 				selected: '#3B91FF',
 				alias: 'dark-blue' // 藏蓝

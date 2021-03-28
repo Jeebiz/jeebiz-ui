@@ -104,7 +104,8 @@ layui.extend({
 
 			}).done(function () {
 
-				layui.use('common', layui.cache.callback.common);
+				//layui.use('common', layui.cache.callback.common);
+				layui.use('common', "controller/common");
 				$win.on('resize', layui.data.resize);
 
 				element.render('breadcrumb', 'breadcrumb');
