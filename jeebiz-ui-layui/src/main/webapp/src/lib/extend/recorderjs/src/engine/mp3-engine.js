@@ -12537,7 +12537,7 @@ function PsyModel() {
                      * Because we don't calculate long block psy when we know a granule
                      * should be of short blocks, we don't have any clue how the granule
                      * before would have looked like as a long block. So we have to guess
-                     * a little bit for this END_TYPE block.
+                     * a little bit for this ENd_type block.
                      * Most of the time we get away with this sloppyness. (fingers crossed :)
                      * The speed increase is worth it.
                      * </PRE>
