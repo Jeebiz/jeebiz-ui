@@ -26,7 +26,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 		storage: {
 			headerName	: "X-Authorization",
 			tokenName	: "token",
-			language	: "zh_CN"
+			language	: "X-Language"
 		},
 
 		//  是否自动携带请求字段

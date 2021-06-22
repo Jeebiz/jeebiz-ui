@@ -89,7 +89,7 @@
 	  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]--> 
-	<script type="text/javascript" th:inline="javascript">
+	<script type="text/javascript">
 	layui.use(['admin', 'form', 'base64'], function(){
 	  	var $ = layui.$ ,setter = layui.setter ,admin = layui.admin, base64 = layui.base64,
 	  		form = layui.form ,router = layui.router() ,search = router.search;
@@ -131,29 +131,30 @@
 	  	form.on('submit(LAY-user-login-submit)', function(obj){
 		    //请求登入接口
 		    admin.req({
-          url   : layui.setter.prefix + '/authz/login/stateless', //实际使用请改成服务端真实接口
-          data	: obj.field,
-          type  : 'POST',
-          done  : function (res) {
-            if(res.code == 0 || res.code == 200){
-              //请求成功后，写入 access_token
-              layui.data(setter.tableName, {
-                    key		: setter.storage.tokenName,
-                    value	: res.token
-                });
-                //登入成功的提示与跳转
-                layer.msg('登入成功', {
-                    offset	: '15px',
-                    icon	: 1,
-                    time	: 1000
-                }, function(){
-                  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
-                });
-              } else {
-                layer.msg(res["msg"]||"", {
+	          url   : layui.setter.prefix + '/authz/login/stateless', //实际使用请改成服务端真实接口
+	          data	: obj.field,
+	          type  : 'POST',
+	          done  : function (res) {
+	        	  alert(res.code == 0 || res.code == 200);
+	            if(res.code === 0 || res.code == 200){
+	              	//请求成功后，写入 access_token
+	              	layui.data(setter.tableName, {
+	                    key		: setter.storage.tokenName,
+	                    value	: res.token
+	                });
+	                // 登入成功的提示与跳转
+	                layer.msg('登入成功', {
+	                    offset	: '15px',
+	                    icon	: 1,
+	                    time	: 1000
+	                }, function(){
+	                  	location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+	                });
+	              } else {
+	                layer.msg(res["msg"]||"", {
                         icon: 2
-                  });
-              }
+                  	});
+	              }
 		      	},
 		      	error : function(e, code){
 		      		

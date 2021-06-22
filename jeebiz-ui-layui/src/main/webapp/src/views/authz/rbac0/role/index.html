@@ -68,18 +68,18 @@
 	</div>
 </div>
 
-<script type="text/javascript">
+<script>
 /**
  * 角色管理功能
  */
- layui.define([ 'table', 'form' ], function(exports) {
+ layui.use([ 'table', 'form' ], function(exports) {
 					
 	var $ = layui.$, setter = layui.setter, admin = layui.admin, table = layui.table, form = layui.form;
 	form.render();
 	//角色管理
 	table.render({
 		elem 		: '#LAY-role-list',
-		url 		: setter.prefix + 'authz/role/list', // 数据查询接口
+		url 		: setter.prefix + '/authz/role/list', // 数据查询接口
 		contentType	: "application/json",
 		page		: true,
 		height		: 'full-220',
@@ -93,7 +93,7 @@
 			countName: 'total', //规定数据总数的字段名称，默认：count
 			dataName: 'rows', //规定数据列表的字段名称，默认：data
 			statusName: 'code', //规定数据状态的字段名称，默认：code
-			statusCode: 0, //规定成功的状态码，默认：0
+			statusCode: 200, //规定成功的状态码，默认：0
 			msgName: 'message' //规定状态信息的字段名称，默认：msg
 		}, 
 		cols 		: [ [ 
@@ -136,11 +136,11 @@
 			success		: function(res){
 				if(res.status == 'success'){
 					layer.msg(res["msg"]||"", {
-							icon: 1
+						icon: 1
 					});
 				} else {
 					layer.msg(res["msg"]||"", {
-							icon: 2
+						icon: 2
 					});
 				}
 			}

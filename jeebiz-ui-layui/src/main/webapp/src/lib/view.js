@@ -69,7 +69,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
     options.data = options.data || {};
     options.headers = options.headers || {};
-
+console.log(options.headers, "headers");
     if (request.tokenName) {
       var sendData = typeof options.data === 'string' ?
         JSON.parse(options.data) :
@@ -85,11 +85,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
     }
+    console.log(options.headers, "headers2");
     if(request.language){
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
     }    
-
+ 
     delete options.success;
     delete options.error;
 
@@ -99,10 +100,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
       success: function (res) {
 		console.log("res", res);
         var statusCode = response.statusCode;
-
-		console.log("statusCode", statusCode);
         // 只有 response 的 code 一切正常才执行 done
-        if (res[response.statusName] == '0' || res[response.statusName] === statusCode.ok) {
+        if (options.done && (res[response.statusName] == 0 || res[response.statusName] == statusCode.ok)) {
           typeof options.done === 'function' && options.done(res);
         }
         // 登录状态失效，清除本地 access_token，并强制跳转到登入页
