@@ -1,6 +1,4 @@
-
- <title>角色管理</title>
-
+<title>角色管理</title>
 	  
 <div class="layui-card layadmin-header">
 	<div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -47,7 +45,7 @@
 			</script>
 			<script type="text/html" id="switchTpl">
 				<input type="checkbox" name="status" value="{{d.status}}" 
-				data-id="{{d.id}}" lay-skin="switch"  lay-text="可用|禁用" lay-filter="statusKv" {{ d.status == '1' ? 'checked' : '' }}>
+				data-id="{{d.id}}" lay-skin="switch" lay-text="可用|禁用" lay-filter="statusKv" {{ d.status == '1' ? 'checked' : '' }}>
 			</script>
 			<script type="text/html" id="typeTpl">
 			{{#  if(d.type == 1){ }}
@@ -77,38 +75,30 @@
 	var $ = layui.$, setter = layui.setter, admin = layui.admin, table = layui.table, form = layui.form;
 	form.render();
 	//角色管理
-	table.render({
+	table.render(admin.wrap({
 		elem 		: '#LAY-role-list',
 		url 		: setter.prefix + '/authz/role/list', // 数据查询接口
-		contentType	: "application/json",
 		page		: true,
 		height		: 'full-220',
 		limit		: 30,
-		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
-		request		: {
-			pageName : 'pageNo', //页码的参数名称，默认：page
-			limitName: 'limit' //每页数据量的参数名，默认：limit
-		},
-		response	: {
-			countName: 'total', //规定数据总数的字段名称，默认：count
-			dataName: 'rows', //规定数据列表的字段名称，默认：data
-			statusName: 'code', //规定数据状态的字段名称，默认：code
-			statusCode: 200, //规定成功的状态码，默认：0
-			msgName: 'message' //规定状态信息的字段名称，默认：msg
-		}, 
+		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+	      title: '提示'
+	      ,layEvent: 'LAYTABLE_TIPS'
+	      ,icon: 'layui-icon-tips'
+	    }],
 		cols 		: [ [ 
 			{ type : 'checkbox', fixed : 'left' },  
-			{ field: 'name', title : '角色名', minWidth : 100 }, 
-			{ field: 'type', title : '类型', width: 80, align : 'left', templet: '#typeTpl' }, 
-			{ field: 'users', width: 80, title: '用户数', align : 'center'},
-			{ field: 'time24', width: 170, align : 'center', title: '创建时间'},
-			{ field: 'status', title : '角色状态', unresize: true, minWidth : 80, align : 'center', templet: '#switchTpl'}, 
-			{ title: '操作', minWidth : 150, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
+			{ field: 'name', title : '角色名称', minWidth : 100 }, 
+			{ field: 'type', title : '角色类型', unresize: true, minWidth: 100, align : 'left', templet: '#typeTpl' }, 
+			{ field: 'time24', minWidth: 170, align : 'center', title: '创建时间'},
+			{ field: 'users', minWidth: 80, title: '用户数', align : 'center'},
+			{ field: 'status', title : '角色状态', unresize: true, width: 100, align : 'center', templet: '#switchTpl'}, 
+			{ title: '操作', minWidth : 180, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
 		]],
 		skin	: 'line'
-	});
+	}));
 	
-	//监听搜索
+	// 监听搜索
 	form.on('submit(LAY-role-search)', function(data) {
 		var field = data.field;
 		//执行重载
@@ -120,52 +110,52 @@
 		});
 	});
 	
-	//监听状态操作
+	// 监听状态操作
 	form.on('switch(statusKv)', function(obj){
 		//layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
 		var value = this.value, //得到修改后的值
 			id = $(obj.elem).data("id");
 		// 提交更新
-			admin.req({
-			url			: setter.prefix + 'authz/role/status',
+		admin.req({
+			url			: setter.prefix + '/authz/role/status',
 			type 		: "post",
-			data		: {
+			contentType	: "application/json",
+			dataType	: "json",
+			data		: JSON.stringify({
 				"id" 	: id,
-					"status": obj.elem.checked ? "1" : "0"
-			},
+				"status": obj.elem.checked ? "1" : "0"
+			}),
 			success		: function(res){
 				if(res.status == 'success'){
-					layer.msg(res["msg"]||"", {
+					layer.msg(res["message"]||"", {
 						icon: 1
 					});
 				} else {
-					layer.msg(res["msg"]||"", {
+					layer.msg(res["message"]||"", {
 						icon: 2
 					});
 				}
 			}
 		});
 	});
-	
-	//监听行工具事件
+	 
+	// 监听行工具事件
 	table.on('tool(LAY-role-list)', function(obj){
 		var data = obj.data;
 		var id = data.id;
 		if(obj.event === 'detail'){
-			//Ajax获取
-			$.get(setter.prefix + 'authz/role/ui/detail/' + id, {}, function(str){
-				layer.open({
-					area: ['700px', '600px'],
-					content: str, //注意，如果str是object，那么需要字符拼接。
-					title: '角色详情',
-					type: 1
-				});
+			layer.open({
+				area: ['700px', '600px'],
+				content: str, //注意，如果str是object，那么需要字符拼接。
+				title: '角色详情',
+				type: 2, 
+			 	content: '/src/views/authz/rbac0/role/new.html'
 			});
-		} else if(obj.event === 'renew'){
+ 		} else if(obj.event === 'renew'){
 			layer.open({ 
 				type	: 2,
 				title	: '编辑角色',
-				content	: setter.prefix + 'authz/role/ui/renew/' + id,
+				content	: '/src/views/authz/rbac0/role/renew.html',
 				area	: ['700px', '600px'],
 				btn		: ['确定', '取消'],
 				yes		: function(index, layero){
@@ -182,7 +172,7 @@
 							}
 						}
 						// 提交更新
-							admin.req({
+						admin.req({
 							url			: setter.prefix + 'authz/role/renew',
 							type 		: "post",
 							contentType	: "application/json",

@@ -57,6 +57,9 @@
 				<input type="checkbox" name="status" value="{{d.status}}" 
 				data-id="{{d.id}}" lay-skin="switch" lay-text="可用|禁用" lay-filter="statusKv" {{ d.status == '1' ? 'checked' : '' }}>
 			</script>
+			<script type="text/html" id="lockTpl">
+  			<input type="checkbox" name="lock" value="{{d.id}}" title="锁定" lay-filter="lockKv" {{ d.id == 10006 ? 'checked' : '' }}>
+			</script>
 			<script type="text/html" id="imgTpl"> 
 				<img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
 			</script>
@@ -79,6 +82,12 @@ layui.use([ 'table', 'form' ], function(exports) {
 	
 	form.render();
 	
+	var headers = {};
+   	// 自动给 Request Headers 传入 token
+   	headers[setter.storage.headerName] = (layui.data(setter.tableName)[setter.storage.tokenName] || '');
+   	// 自动给 Request Headers 传入 token
+   	headers[setter.storage.language] = (layui.data(setter.tableName)[setter.storage.language] || 'zh_CN');
+    
 	// 用户管理
 	table.render({
 		elem 		: '#LAY-user-list',
@@ -86,8 +95,21 @@ layui.use([ 'table', 'form' ], function(exports) {
 		contentType	: "application/json",
 		page		: true,
 		height		: 'full-220',
-		limit		: 30,
+		limit		: 20,
 		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
+		headers		: headers,
+		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+	      title: '提示'
+	      ,layEvent: 'LAYTABLE_TIPS'
+	      ,icon: 'layui-icon-tips'
+	    }],
+		page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+	      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	      //curr: 5, //设定初始在第 5 页
+	      groups: 1, //只显示 1 个连续页码
+	      first: false, //不显示首页
+	      last: false //不显示尾页
+	    },
 		request		: {
 			pageName	: 'pageNo', //页码的参数名称，默认：page
 			limitName	: 'limit' //每页数据量的参数名，默认：limit
@@ -96,9 +118,9 @@ layui.use([ 'table', 'form' ], function(exports) {
 			countName	: 'total', //规定数据总数的字段名称，默认：count
 			dataName	: 'rows', //规定数据列表的字段名称，默认：data
 			statusName	: 'code', //规定数据状态的字段名称，默认：code
-			statusCode	: 0, //规定成功的状态码，默认：0
+			statusCode	: 200, //规定成功的状态码，默认：0
 			msgName		: 'message' //规定状态信息的字段名称，默认：msg
-		}, 
+		},
 		cols 		: [ [ 
 			{ type	: 'checkbox', fixed : 'left' }, 
 			/*{ type: 'numbers'},*/
@@ -114,6 +136,7 @@ layui.use([ 'table', 'form' ], function(exports) {
 			{ field: 'email', title: '邮箱'},*/
 			{ field	: 'roleName', title: '角色', width : 100},
 			{ field	: 'status', title : '用户状态', unresize: true, width : 90, align : 'center', templet: '#switchTpl'}, 
+			{ field :'lock', title:'是否锁定', width:110, templet: '#"lockTpl"', unresize: true},
 			{ title	: '操作', width : 200, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
 		]],
 		skin: 'line'
@@ -131,26 +154,28 @@ layui.use([ 'table', 'form' ], function(exports) {
 		});
 	});
 	
-	//监听状态操作
+	// 监听状态操作
 	form.on('switch(statusKv)', function(obj){
 		//layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
 		var value = this.value, //得到修改后的值
 			id = $(obj.elem).data("id");
 		// 提交更新
-			admin.req({
-			url			: setter.prefix + 'authz/user/status',
+		admin.req({
+			url			: setter.prefix + '/authz/user/status',
 			type 		: "post",
-			data		: {
+			contentType	: "application/json",
+			dataType	: "json",
+			data		: JSON.stringify({
 				"id" 	: id,
-					"status": obj.elem.checked ? "1" : "0"
-			},
+				"status": obj.elem.checked ? "1" : "0"
+			}),
 			success		: function(res){
 				if(res.status == 'success'){
-					layer.msg(res["msg"]||"", {
+					layer.msg(res["message"]||"", {
 							icon: 1
 					});
 				} else {
-					layer.msg(res["msg"]||"", {
+					layer.msg(res["message"]||"", {
 							icon: 2
 					});
 				}
@@ -158,6 +183,12 @@ layui.use([ 'table', 'form' ], function(exports) {
 		});
 	});
 	
+  	// 监听锁定操作
+ 	form.on('checkbox(lockKv)', function(obj){
+    	layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+  	});
+  
+  	
 	//监听单元格编辑
 	table.on('renew(LAY-user-list)', function(obj){
 		var value = obj.value, //得到修改后的值

@@ -138,7 +138,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 					"10033": "Token已失效"
 				},
 			},
-			msgName: 'msg', // 状态信息的字段名称
+			msgName: 'message', // 状态信息的字段名称
 			dataName: 'data' // 数据详情的字段名称
 		},
 

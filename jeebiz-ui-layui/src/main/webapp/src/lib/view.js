@@ -69,7 +69,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
     options.data = options.data || {};
     options.headers = options.headers || {};
-console.log(options.headers, "headers");
     if (request.tokenName) {
       var sendData = typeof options.data === 'string' ?
         JSON.parse(options.data) :
@@ -95,9 +94,9 @@ console.log(options.headers, "headers");
     delete options.error;
 
     return $.ajax($.extend({
-      type: 'get',
-      dataType: 'json',
-      success: function (res) {
+      type			: 'get',
+      dataType		: 'json',
+      success		: function (res) {
 		console.log("res", res);
         var statusCode = response.statusCode;
         // 只有 response 的 code 一切正常才执行 done
@@ -142,20 +141,17 @@ console.log(options.headers, "headers");
         // 只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
         typeof success === 'function' && success(res);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-
-
-        var res = jqXHR.responseJSON || JSON.parse(jqXHR.responseText);
+      error		: function (jqXHR, textStatus, errorThrown) {
+ 		if (setter.debug) {
+          console.log(jqXHR.responseText);
+        }
+        var res = jqXHR.responseJSON || {};
         var code = res.code;
         if (setter.debug) {
           console.log(res);
         }
 
-
         var statusCode = response.statusCode;
-        console.log(statusCode.status[code], code)
-        console.log(statusCode.authz[code], code)
-
         // 数据异常处理 : 全局提示
         if (statusCode.status[code]) {
           var message = res[response.msgName] || statusCode.status[code];
@@ -229,6 +225,51 @@ console.log(options.headers, "headers");
     }, options))
   };
 
+ view.wrap = function (options) {
+    var that = this,
+      success = options.success,
+      error = options.error,
+      storage = setter.storage,
+      request = setter.request,
+      response = setter.response;
+      
+    options.data = options.data || {};
+    options.headers = options.headers || {};
+    if(request.headerName){
+    	// 自动给 Request Headers 传入 token
+    	options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
+    }
+    console.log(options.headers, "headers2");
+    if(request.language){
+    	// 自动给 Request Headers 传入 token
+    	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
+    }
+    return $.extend({
+   		contentType	: "application/json",
+		page		: true,
+		height		: 'full-220',
+		limit		: 20,
+		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
+	  	page		: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+	      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	      //curr: 5, //设定初始在第 5 页
+	      groups: 1, //只显示 1 个连续页码
+	      first: false, //不显示首页
+	      last: false //不显示尾页
+	    },
+		request		: {
+			pageName	: 'pageNo', //页码的参数名称，默认：page
+			limitName	: 'limit' //每页数据量的参数名，默认：limit
+		},
+		response	: {
+			countName	: 'total', //规定数据总数的字段名称，默认：count
+			dataName	: 'rows', //规定数据列表的字段名称，默认：data
+			statusName	: response.statusName, //规定数据状态的字段名称，默认：code
+			statusCode	: response.statusCode.ok, //规定成功的状态码，默认：0
+			msgName		: response.msgName //规定状态信息的字段名称，默认：msg
+		},
+    }, options);
+  }
 
   //请求模板文件渲染
   Class.prototype.render = function (views, params) {

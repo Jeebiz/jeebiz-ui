@@ -37,6 +37,7 @@ layui.define('view', function (exports) {
       v: '2020 pro',
       //数据的异步请求
       req: view.req,
+      wrap: view.wrap,
       //清除本地 token，并跳转到登入页
       exit: view.exit,
       //xss 转义
