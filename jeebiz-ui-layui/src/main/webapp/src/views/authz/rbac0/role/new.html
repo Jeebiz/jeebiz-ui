@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh_CN" 
-	xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta charset="utf-8">
-  <title>增加角色</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="layui/css/layui.css" media="all">
-  <style type="text/css">
-  #LAY-auth-tree-index.layui-form-danger {
-  	 border-color: #FF5722 !important;
-  	 border: 1px solid;
-  	 border-radius: 2px;
-  }
-  </style>
-</head>
-<body>
+ 
 
 	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
 		<div class="layui-form-item">
@@ -44,19 +26,9 @@
 		</div>
 	</div>
 
-	<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script> 
-  	<script type="text/javascript" th:inline="javascript">
-   	/*<![CDATA[*/
-   	var ctxPath = /*[[@{/}]]*/'';
-    var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
-   	/*]]>*/
-  	layui.config({
-	  	base 	: basePath,  //静态资源所在路径
-	  	prefix	: ctxPath,
-	  	version	: "20180921"
-  	}).extend({
-  	   	index	: "lib/index", //主入口模块
-  	}).use(['index', "authtree"], function(){
+ 	<script>
+	layui.use(['index', 'form', 'authtree'], function(){
+ 		
   		var $ = layui.$, setter = layui.setter, admin = layui.admin, form = layui.form, authtree = layui.authtree;
   		var checkedPerms = [];
   		form.verify({
@@ -144,5 +116,3 @@
     	
   	});
   </script>
-</body>
-</html>

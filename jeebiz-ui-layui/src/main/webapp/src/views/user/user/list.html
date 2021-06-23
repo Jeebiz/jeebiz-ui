@@ -78,7 +78,7 @@ layui.use('useradmin', layui.factory('useradmin')).use(['admin', 'useradmin', 't
   
   form.render(null, 'layadmin-userfront-formlist');
   
-  //监听搜索
+  //开启搜索
   form.on('submit(LAY-user-front-search)', function(data){
     var field = data.field;
     
@@ -127,7 +127,7 @@ layui.use('useradmin', layui.factory('useradmin')).use(['admin', 'useradmin', 't
           view(this.id).render('user/user/userform').done(function(){
             form.render(null, 'layuiadmin-form-useradmin');
             
-            //监听提交
+            //开启提交
             form.on('submit(LAY-user-front-submit)', function(data){
               var field = data.field; //获取提交的字段
 

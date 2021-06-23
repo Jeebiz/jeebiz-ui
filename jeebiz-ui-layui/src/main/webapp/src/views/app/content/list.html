@@ -84,7 +84,7 @@
     
     form.render(null, 'app-content-list');
     
-    //监听搜索
+    //搜索
     form.on('submit(LAY-app-contlist-search)', function(data){
       var field = data.field;
       
@@ -127,7 +127,7 @@
             view(this.id).render('app/content/listform').done(function(){
               form.render(null, 'layuiadmin-app-form-list');
               
-              //监听提交
+              //提交
               form.on('submit(layuiadmin-app-form-submit)', function(data){
                 var field = data.field; //获取提交的字段
 

@@ -105,7 +105,7 @@ layui.use('useradmin', layui.factory('useradmin')).use(['admin', 'useradmin', 't
           view(this.id).render('user/administrators/roleform').done(function(){
             form.render(null, 'layuiadmin-form-role');
             
-            //监听提交
+            //提交
             form.on('submit(LAY-user-role-submit)', function(data){
               var field = data.field; //获取提交的字段
 

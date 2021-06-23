@@ -2,7 +2,7 @@
 
  @Name：layuiAdmin 工单系统
  @Author：star1029
- @Site：http://www.layui.com/admin/
+ 
  @License：GPL-2
     
  */
@@ -39,7 +39,7 @@ layui.define(['table', 'form', 'element'], function(exports){
     }
   });
 
-  //监听工具条
+  //工具条
   table.on('tool(LAY-app-workorder)', function(obj){
     var data = obj.data;
     if(obj.event === 'edit'){
@@ -51,7 +51,7 @@ layui.define(['table', 'form', 'element'], function(exports){
           view(this.id).render('app/workorder/listform').done(function(){
             form.render(null, 'layuiadmin-form-workorder');
             
-            //监听提交
+            //提交
             form.on('submit(LAY-app-workorder-submit)', function(data){
               var field = data.field; //获取提交的字段
 

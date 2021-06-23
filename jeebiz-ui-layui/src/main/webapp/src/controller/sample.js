@@ -2,7 +2,7 @@
 
  @Name：layuiAdmin 主页示例
  @Author：star1029
- @Site：http://www.layui.com/admin/
+ 
  @License：GPL-2
     
  */
@@ -181,7 +181,7 @@ layui.define(function(exports){
     var echartsApp = [], options = [
       {
         title : {
-          text: '全国的 layui 用户分布',
+          text: '访客地区分布',
           subtext: '不完全统计'
         },
         tooltip : {
@@ -196,7 +196,7 @@ layui.define(function(exports){
         },
         series : [
           { 
-            name: '全国的 layui 用户分布',
+            name: '访客地区分布',
             type: 'map',
             mapType: 'china',    
             selectedMode : 'multiple',

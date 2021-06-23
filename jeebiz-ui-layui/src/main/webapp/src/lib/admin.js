@@ -45,7 +45,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
           .replace(/'/g, '&#39;').replace(/"/g, '&quot;');
       },
 
-      //事件监听
+      //事件
       on: function (events, callback) {
         return layui.onevent.call(this, setter.MOD_NAME, events, callback);
       },
@@ -684,7 +684,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
 
   //admin.prevRouter = {}; //上一个路由
 
-  //监听 hash 改变侧边状态
+  // hash 改变侧边状态
   admin.on('hash(side)', function (router) {
     var path = router.path,
       getData = function (item) {
@@ -756,7 +756,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
     matchMenu(sideMenu.children('li'));
   });
 
-  //监听侧边导航点击事件
+  //侧边导航点击事件
   element.on('nav(layadmin-system-side-menu)', function (elem) {
     if (elem.siblings('.layui-nav-child')[0] && container.hasClass(SIDE_SHRINK)) {
       admin.sideFlexible('spread');
@@ -765,7 +765,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
     admin.tabsPage.type = 'nav';
   });
 
-  //监听选项卡的更多操作
+  //选项卡的更多操作
   element.on('nav(layadmin-pagetabs-nav)', function (elem) {
     var dd = elem.parent();
     dd.removeClass(THIS);
@@ -802,7 +802,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
     admin.resizeTable(); //重置当前主体区域的表格尺寸
   });
 
-  //监听 tabspage 删除
+  // tabspage 删除
   element.on('tabDelete(layadmin-layout-tabs)', function (obj) {
     var othis = $(TABS_HEADER + '.layui-this');
 

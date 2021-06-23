@@ -2,7 +2,7 @@
 
  @Name：layuiAdmin 内容系统
  @Author：star1029
- @Site：http://www.layui.com/admin/
+ 
  @License：LPPL
     
  */
@@ -35,7 +35,7 @@ layui.define(['table', 'form'], function(exports){
     ,text: '对不起，加载出现异常！'
   });
   
-  //监听工具条
+  //工具条
   table.on('tool(LAY-app-content-list)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
@@ -52,7 +52,7 @@ layui.define(['table', 'form'], function(exports){
           view(this.id).render('app/content/listform', data).done(function(){
             form.render(null, 'layuiadmin-app-form-list');
             
-            //监听提交
+            //提交
             form.on('submit(layuiadmin-app-form-submit)', function(data){
               var field = data.field; //获取提交的字段
 
@@ -80,7 +80,7 @@ layui.define(['table', 'form'], function(exports){
     ,text: '对不起，加载出现异常！'
   });
   
-  //监听工具条
+  //工具条
   table.on('tool(LAY-app-content-tags)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
@@ -97,7 +97,7 @@ layui.define(['table', 'form'], function(exports){
           view(this.id).render('app/content/tagsform', data).done(function(){
             form.render(null, 'layuiadmin-form-tags');
             
-            //监听提交
+            //提交
             form.on('submit(layuiadmin-app-tags-submit)', function(data){
               var field = data.field; //获取提交的字段
 
@@ -130,7 +130,7 @@ layui.define(['table', 'form'], function(exports){
     ,text: '对不起，加载出现异常！'
   });
   
-  //监听工具条
+  //工具条
   table.on('tool(LAY-app-content-comm)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
@@ -147,7 +147,7 @@ layui.define(['table', 'form'], function(exports){
           view(this.id).render('app/content/contform', data).done(function(){
             form.render(null, 'layuiadmin-form-comment');
             
-            //监听提交
+            //提交
             form.on('submit(layuiadmin-app-com-submit)', function(data){
               var field = data.field; //获取提交的字段
 

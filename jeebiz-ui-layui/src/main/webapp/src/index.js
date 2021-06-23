@@ -1,12 +1,4 @@
-/**
-
- @Name：layuiAdmin 主入口
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：LPPL
-    
- */
-
+/** layui admin 主入口 */
 layui.extend({
 	setter: 'config', // 配置模块'/;
 	admin: 'lib/admin', // 核心模块
@@ -213,10 +205,13 @@ layui.extend({
 
 	//扩展 lib 目录下的其它模块
 	layui.each(setter.extend, function (index, item) {
-		var mods = {};
-		//mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
-		var items = item.split("/");
-		mods[items[items.legnth > 0 ? items.lenght - 1 : 0]] = '{/}' + setter.base + 'lib/extend/' + item;
+    	var mods = {} ,_isArray = setter.extend.constructor === Array;
+    	
+    	var items = item.split("/");
+    		item = items[items.legnth > 0 ? items.lenght - 1 : 0];
+    	
+    	mods[_isArray ? item : index] = '{/}' + setter.base + 'lib/extend/' + item;
+		
 		layui.extend(mods);
 	});
 

@@ -43,7 +43,7 @@ layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'tabl
           view(this.id).render('app/content/tagsform').done(function(){
             form.render(null, 'layuiadmin-form-tags');
             
-            //监听提交
+            //提交
             form.on('submit(layuiadmin-app-tags-submit)', function(data){
               var field = data.field; //获取提交的字段
 
