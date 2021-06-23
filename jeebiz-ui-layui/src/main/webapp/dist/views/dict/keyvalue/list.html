@@ -1,0 +1,55 @@
+
+<title>数据字典</title>
+ 
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">数据分组</label>
+					<div class="layui-input-inline">
+						 <script type="text/html" template lay-url="{{ layui.setter.prefix }}/dict/group/pairs"
+						 	lay-done="layui.form.render();" >
+							<select name="group" id="LAY-group" lay-filter="LAY-group">   
+								<option value="">全部分组</option>      				 
+								{{# if(d.data){ }} 
+                                  	{{#  layui.each(d.data, function(index, item){ }}
+									<option value="{{ item.key }}">{{ item.value }}</option>                                    
+                                 	{{#  }); }}
+         				 		{{# } }}
+							</select>
+          				</script>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn layui-btn-sm layuiadmin-btn-list" lay-submit lay-filter="LAY-keyvalue-search">
+						<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="layui-card-body">
+			<div class="LAY-keyvalue-btns" style="margin-bottom: 10px;">
+			
+				<a shiro:hasPermission="keyvalue:new" class="layui-btn layui-btn-danger layui-btn-sm layuiadmin-btn-admin" data-type="add" data-events="add">
+					<i class="layui-icon layui-icon-add-1 layuiadmin-button-btn"></i> 添加
+				</a>
+			</div>
+			<table id="LAY-keyvalue-list" lay-filter="LAY-keyvalue-list"></table>
+			<script type="text/html" id="switchTpl">
+  				<input type="checkbox" name="status" value="{{d.status}}" 
+					data-id="{{d.id}}" data-group="{{d.group}}" data-key="{{d.key}}" 
+					lay-skin="switch"  lay-text="可用|禁用"  lay-filter="statusKv" {{ d.status == '1' ? 'checked' : '' }}>
+			</script>
+			<script type="text/html" id="table-opt-list">
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        	</script>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">   
+layui.use(['dict/keyvalue']);
+</script>

@@ -1,16 +1,14 @@
-/**
 
- @Name：layuiAdmin 核心模块
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：LPPL
-    
+/*!
+ * 界面核心模块   
  */
-
-layui.define('view', function (exports) {
+ 
+layui.define(['view', 'table', 'upload'], function(exports){
   var $ = layui.jquery,
     laytpl = layui.laytpl,
     element = layui.element,
+    table = layui.table,
+    upload = layui.upload,
     setter = layui.setter,
     view = layui.view,
     device = layui.device(),
@@ -34,7 +32,7 @@ layui.define('view', function (exports) {
 
     // 通用方法
     admin = {
-      v: '2020 pro',
+      v: '1.7.1 pro',
       //数据的异步请求
       req: view.req,
       wrap: view.wrap,
@@ -878,7 +876,29 @@ layui.define('view', function (exports) {
     resizeSystem.lock = true;
   }
   $win.on('resize', layui.data.resizeSystem);
-
+  
+  
+  //设置组件全局 token
+  ;!function(){
+    var request = setter.request;
+    if(request.tokenName){
+      var obj = {};
+      obj[request.tokenName] = layui.data(setter.tableName)[request.tokenName] || ''
+      
+      //table
+      table.set({
+        headers: obj, //通过 request 头传递
+        where: obj //通过参数传递
+      });
+      //upload
+      upload.set({
+        headers: obj, //通过 request 头传递
+        data: obj //通过参数传递
+      });
+    }
+  }();
+  
+  
   //接口输出
   exports('admin', admin);
 });

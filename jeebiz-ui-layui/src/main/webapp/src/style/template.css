@@ -1,17 +1,13 @@
-/**
 
- @Name：layuiAdmin
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：LPPL
- 
+/** 
+ * admin.templte.css 
  */
 
 
  
 /********************************
  
- 模板开始 By xuzhiwen
+ 模板开始 
  
 *******************************/
 
@@ -183,4 +179,4 @@
 .layadmin-caller .caller-contar button{margin-top: 22px;}
 .layadmin-caller .caller-contar .caller-img{width: 40px;height: 40px;border-radius: 100%;}
 
-/******  模板结束 By xuzhiwen  ******/
+/******  模板结束   ******/

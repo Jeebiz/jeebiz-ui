@@ -1,0 +1,1 @@
+layui.define(function(i){layui.$,layui.layer,layui.laytpl;var t=layui.setter,u=(layui.view,layui.admin);u.events.logout=function(){u.req({url:t.prefix+"logout",type:"post",data:{},success:function(i){u.exit(function(){location.href=t.prefix+"authz/login/stateful"})}})},i("common",{})});

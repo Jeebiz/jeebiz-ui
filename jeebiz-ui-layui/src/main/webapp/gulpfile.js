@@ -1,4 +1,5 @@
-/**
+
+/*!
  layuiAdmin pro 构建
 */
 
@@ -7,7 +8,7 @@ var inds = pkg.independents;
 
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
-var minify = require('gulp-minify-css');
+var minify = require('gulp-css-minify');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
@@ -25,12 +26,13 @@ var argv = require('minimist')(process.argv.slice(2), {
 
 //注释
 ,note = [
-  '/** <%= pkg.name %>-v<%= pkg.version %> <%= pkg.license %> License By <%= pkg.homepage %> */\n <%= js %>'
+  // '/** <%= pkg.name %>-v<%= pkg.version %> <%= pkg.license %> License */\n <%= js %>'
+  ,''
   ,{pkg: pkg, js: ';'}
 ]
 
 ,destDir = './dist' //构建的目标目录
-,releaseDir = '../pack/layuiAdmin.pack/'+ pkg.name +'-v' + pkg.version //发行版本目录
+,releaseDir = '../pack/jeebiz-ui-layui.pack/'+ pkg.name +'-v' + pkg.version //发行版本目录
 
 //任务
 ,task = {
@@ -39,10 +41,14 @@ var argv = require('minimist')(process.argv.slice(2), {
     var src = [
       './src/**/*.js'
       ,'!./src/config.js'
-      ,'!./src/lib/extend/echarts.js'
+      ,'!./src/lib/extend/**/*.js'
     ];
     
-    return gulp.src(src).pipe(uglify())
+    return gulp.src(src).pipe(uglify({
+      output: {
+        ascii_only: true //escape Unicode characters in strings and regexps
+      }
+    }))
      .pipe(header.apply(null, note))
     .pipe(gulp.dest(destDir));
   }
@@ -68,7 +74,7 @@ var argv = require('minimist')(process.argv.slice(2), {
     gulp.src('./src/config.js')
     .pipe(gulp.dest(destDir));
     
-    gulp.src('./src/lib/extend/echarts.js')
+    gulp.src('./src/lib/extend/**/*')
     .pipe(gulp.dest(destDir + '/lib/extend'));
     
     gulp.src('./src/style/res/**/*')
@@ -79,33 +85,50 @@ var argv = require('minimist')(process.argv.slice(2), {
   }
 };
 
+gulp.task('minjs', gulp.series(task.minjs));
+gulp.task('mincss', gulp.series(task.mincss));
+gulp.task('mv', gulp.series(task.mv));
 
 //清理
-gulp.task('clear', function(cb) {
-  return del(['./dist/*'], cb);
-});
-gulp.task('clearRelease', function(cb) {
-  return del(['./json/*', releaseDir], cb);
-});
+gulp.task("clear", gulp.series(function(cb){
+     return del(['./dist/*'], cb);
+}));
 
-gulp.task('minjs', task.minjs);
-gulp.task('mincss', task.mincss);
-gulp.task('mv', task.mv);
-
-gulp.task('src', function(){ //命令：gulp src
-  return gulp.src('./dev-src/**/*')
-  .pipe(gulp.dest('./src'));
-});
-
-//构建核心源文件
-gulp.task('default', ['clear', 'src'], function(){ //命令：gulp
+//构建核心源文件（发行版）
+gulp.task('default', gulp.series('clear', function(cb){ //命令：gulp
+//命令：gulp
   for(var key in task){
     task[key]();
   }
-});
+  cb();
+}));
 
-//发行 - layuiAdmin 官方使用
-gulp.task('release', function(){ //命令：gulp && gulp release
+
+/**
+ * 开发模式
+ */
+
+//清理 src
+gulp.task('clearSrc', gulp.series(function(cb) {
+  return del(['./src/*'], cb);
+}));
+
+//复制 src
+gulp.task('src', gulp.series('clearSrc', function(){
+  return gulp.src('./dev-src/**/*')
+  .pipe(gulp.dest('./src'));
+}));
+
+//构建核心源文件（开发版）
+gulp.task('dev', gulp.series('clear', 'src', function(cb){ //命令：gulp dev
+  for(var key in task){
+    task[key]();
+  }
+  cb();
+}));
+
+//发行文件
+gulp.task('release', gulp.series(function(){ //命令：gulp && gulp release
   
   //复制核心文件
   gulp.src('./dist/**/*')
@@ -132,11 +155,6 @@ gulp.task('release', function(){ //命令：gulp && gulp release
   //复制帮助文件
   gulp.src([
     './帮助/*'
-    ,'!./帮助/说明.txt'
-  ]).pipe(gulp.dest(releaseDir + '/帮助'));
-  
-  gulp.src([
-    './帮助/说明.txt'
   ]).pipe(gulp.dest(releaseDir));
   
   
@@ -146,18 +164,9 @@ gulp.task('release', function(){ //命令：gulp && gulp release
     ,'package.json'
   ]).pipe(gulp.dest(releaseDir));
   
-  //说明
-  gulp.src('../pack/说明.txt')
-  .pipe(gulp.dest('../pack/layuiAdmin.pack'));
-  
   //复制 layui
   return gulp.src('../../../../res/layui/rc/**/*')
-  .pipe(gulp.dest('./start/layui'))
-  .pipe(gulp.dest(releaseDir + '/start/layui'))
-});
-
-
-
-
-
+  .pipe(gulp.dest('./layui'))
+  .pipe(gulp.dest(releaseDir + '/layui'))
+}));
 

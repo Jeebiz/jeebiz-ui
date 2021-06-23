@@ -1,15 +1,9 @@
-/**
 
- @Name：layuiAdmin
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：LPPL
- 
+/** 
+ * admin.css 
  */
  
 html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
-
-
 
 
 /* 系统 */
@@ -137,7 +131,6 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-input-search{display: inline-block; vertical-align: middle; height: 32px; border: none; cursor: text;}
 .layui-layout-admin .layui-layout-left a{padding: 0;}
 .layui-layout-admin .layui-layout-right{padding: 0;}
-.layui-header .layui-nav-item .layui-icon{position: relative; top: 1px; font-size: 16px;}
 .layui-header .layui-nav-item:hover{}
 .layui-header .layui-layout-right .layui-badge-dot{margin-left: 0px;}
 .layui-header .layui-nav .layui-this:after,
@@ -149,14 +142,12 @@ html{background-color: #f2f2f2; color: #666;}
 /* 侧边菜单 */
 .layui-side-menu .layui-side-scroll{width: 240px;}
 .layui-side-menu .layui-nav{width: 220px; margin-top: 50px; background: none;}
-.layui-side-menu .layui-nav .layui-nav-item a{height: 40px; line-height: 40px; padding-left: 45px; padding-right: 30px;}
-.layui-side-menu .layui-nav .layui-nav-item > a{padding-top: 8px; padding-bottom: 8px;}
+.layui-side-menu .layui-nav .layui-nav-item a{padding-left: 45px; padding-right: 30px;}
 .layui-side-menu .layui-nav .layui-nav-item a:hover{background: none;}
 .layui-side-menu .layui-nav .layui-nav-itemed > .layui-nav-child{padding: 5px 0;}
-.layui-side-menu .layui-nav .layui-nav-item .layui-icon{position: absolute; top: 50%; left: 20px; margin-top: -19px;}
+.layui-side-menu .layui-nav>.layui-nav-item .layui-icon:first-child{position: absolute; top: 50%; left: 20px; margin-top: -19px;}
 .layui-side-menu .layui-nav .layui-nav-child .layui-nav-child{background: none!important;}
 .layui-side-menu .layui-nav .layui-nav-child .layui-nav-child a{padding-left: 60px}
-.layui-side-menu .layui-nav .layui-nav-more{right: 15px;}
 
 /* 侧边菜单 - 平板移动设备 */
 @media screen and (max-width: 992px) {
@@ -306,6 +297,11 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-backlog-body p cite{font-style: normal; font-size: 30px; font-weight: 300; color: #009688;}
 .layadmin-backlog-body:hover{background-color: #f2f2f2; color: #888;}
 
+/* 版本信息 */
+.layadmin-version .layui-table{padding: 6px 0;}
+.layadmin-version .layui-table td, 
+.layadmin-version .layui-table th{line-height: 25px;}
+
 /* 数据概览 */
 .layadmin-dataview{height: 332px !important;}
 .layadmin-dataview>*[carousel-item]:before{display: none;}
@@ -341,11 +337,11 @@ html{background-color: #f2f2f2; color: #666;}
 
 /********************************
  
-  其它主页开始 By star1029
+  其它主页开始
  
 *******************************/
 
-/* 主页示例一 by star1029 */
+/* 主页示例一 */
 /* 进行中的项目 */
 .layui-card-header .layui-a-tips{position: absolute; right: 15px; color: #01AAED;}
 .layuiadmin-card-text{background-color: #f8f8f8; color: #777; padding: 24px;}
@@ -384,7 +380,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layuiadmin-card-team span{color: #777;}
 
 
-/* 主页示例二 by star1029 */
+/* 主页示例二 */
 .layuiadmin-badge{position: absolute; top: 50%; margin-top: -9px; right: 15px; color: #01AAED; }
 .layuiadmin-card-list{padding: 15px;}
 .layuiadmin-card-list p.layuiadmin-big-font{font-size: 36px; color: #666; line-height: 36px; padding: 5px 0 10px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; white-space: nowrap;}
@@ -406,7 +402,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layuiadmin-page-table td span.third{color: #5FB878;}
 
 
-/******  其它主页结束 By star1029  ******/
+/******  其它主页结束  ******/
 
 
 
