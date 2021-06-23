@@ -71,23 +71,23 @@
 		</div>
 	</div>
 </div>
- 
-<script>
+
+<script>   
 /**
  * 用户管理功能
  */
-layui.use([ 'table', 'form' ], function(exports) {
+ layui.use([ 'table', 'form' ], function(exports) {
 					
 	var $ = layui.$, setter = layui.setter, admin = layui.admin, table = layui.table, form = layui.form;
 	
 	form.render();
 	
 	var headers = {};
-   	// 自动给 Request Headers 传入 token
-   	headers[setter.storage.headerName] = (layui.data(setter.tableName)[setter.storage.tokenName] || '');
-   	// 自动给 Request Headers 传入 token
-   	headers[setter.storage.language] = (layui.data(setter.tableName)[setter.storage.language] || 'zh_CN');
-    
+		// 自动给 Request Headers 传入 token
+		headers[setter.storage.headerName] = (layui.data(setter.tableName)[setter.storage.tokenName] || '');
+		// 自动给 Request Headers 传入 token
+		headers[setter.storage.language] = (layui.data(setter.tableName)[setter.storage.language] || 'zh_CN');
+	
 	// 用户管理
 	table.render({
 		elem 		: '#LAY-user-list',
@@ -99,17 +99,17 @@ layui.use([ 'table', 'form' ], function(exports) {
 		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
 		headers		: headers,
 		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-	      title: '提示'
-	      ,layEvent: 'LAYTABLE_TIPS'
-	      ,icon: 'layui-icon-tips'
-	    }],
+			title: '提示'
+			,layEvent: 'LAYTABLE_TIPS'
+			,icon: 'layui-icon-tips'
+		}],
 		page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-	      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-	      //curr: 5, //设定初始在第 5 页
-	      groups: 1, //只显示 1 个连续页码
-	      first: false, //不显示首页
-	      last: false //不显示尾页
-	    },
+			layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+			//curr: 5, //设定初始在第 5 页
+			groups: 1, //只显示 1 个连续页码
+			first: false, //不显示首页
+			last: false //不显示尾页
+		},
 		request		: {
 			pageName	: 'pageNo', //页码的参数名称，默认：page
 			limitName	: 'limit' //每页数据量的参数名，默认：limit
@@ -183,12 +183,12 @@ layui.use([ 'table', 'form' ], function(exports) {
 		});
 	});
 	
-  	// 监听锁定操作
- 	form.on('checkbox(lockKv)', function(obj){
-    	layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
-  	});
-  
-  	
+		// 监听锁定操作
+		form.on('checkbox(lockKv)', function(obj){
+		layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+		});
+	
+		
 	//监听单元格编辑
 	table.on('renew(LAY-user-list)', function(obj){
 		var value = obj.value, //得到修改后的值
@@ -423,6 +423,6 @@ layui.use([ 'table', 'form' ], function(exports) {
 		var type = $(this).data('type');
 		active[type] ? active[type].call(this) : '';
 	});
-
+ 
 });
-</script>
+</script> 
