@@ -34,8 +34,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
     admin = {
       v: '1.7.1 pro',
       //数据的异步请求
-      req: view.req,
-      wrap: view.wrap,
+      req: view.req,   
       //清除本地 token，并跳转到登入页
       exit: view.exit,
       //xss 转义
@@ -50,6 +49,52 @@ layui.define(['view', 'table', 'upload'], function(exports){
         return layui.onevent.call(this, setter.MOD_NAME, events, callback);
       },
 
+      table: function (options) {
+        var that = this,
+          success = options.success,
+          error = options.error,
+          storage = setter.storage,
+          request = setter.request,
+          response = setter.response;
+          
+        options.data = options.data || {};
+        options.headers = options.headers || {};
+        if(request.headerName){
+          // 自动给 Request Headers 传入 token
+          options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
+        }
+        console.log(options.headers, "headers2");
+        if(request.language){
+          // 自动给 Request Headers 传入 token
+          options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
+        }
+        return table.render($.extend({
+          contentType	: "application/json",
+          page		    : true,
+          height		  : 'full-220',
+          limit		    : 20,
+          method		  : 'POST', //如果无需自定义HTTP类型，可不加该参数
+          page		  : { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+            layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            //curr: 5, //设定初始在第 5 页
+            groups: 1, //只显示 1 个连续页码
+            first: false, //不显示首页
+            last: false //不显示尾页
+          },
+          request		  : {
+            pageName	: 'pageNo', //页码的参数名称，默认：page
+            limitName	: 'limit' //每页数据量的参数名，默认：limit
+          },
+          response	  : {
+            countName	: 'total', //规定数据总数的字段名称，默认：count
+            dataName	: 'rows', //规定数据列表的字段名称，默认：data
+            statusName	: response.statusName, //规定数据状态的字段名称，默认：code
+            statusCode	: response.statusCode.ok, //规定成功的状态码，默认：0
+            msgName		: response.msgName //规定状态信息的字段名称，默认：msg
+          },
+          skin        : 'line'
+        }, options));
+      },
       //弹出面板
       popup: view.popup,
 

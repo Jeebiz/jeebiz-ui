@@ -17,3 +17,6 @@ step2: 命令行安装 gulp：npm install gulp -g
 step3：切换到该项目根目录（即 gulpfile.js 所在目录），命令行安装任务所依赖的包：npm install
 安装完成后，即可直接执行命令：gulp
 即可完成 src 到 dist 目录的构建
+
+
+gulp自动化构建工具gulp-connect插件配置服务器实现热更新+自动刷新: https://blog.csdn.net/qwe502763576/article/details/79457168

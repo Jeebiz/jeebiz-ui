@@ -89,38 +89,14 @@
 		headers[setter.storage.language] = (layui.data(setter.tableName)[setter.storage.language] || 'zh_CN');
 	
 	// 用户管理
-	table.render({
+	admin.table({
 		elem 		: '#LAY-user-list',
 		url 		: setter.prefix + '/authz/user/list', // 用户查询接口
-		contentType	: "application/json",
-		page		: true,
-		height		: 'full-220',
-		limit		: 20,
-		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
-		headers		: headers,
 		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 			title: '提示'
 			,layEvent: 'LAYTABLE_TIPS'
 			,icon: 'layui-icon-tips'
 		}],
-		page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-			layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-			//curr: 5, //设定初始在第 5 页
-			groups: 1, //只显示 1 个连续页码
-			first: false, //不显示首页
-			last: false //不显示尾页
-		},
-		request		: {
-			pageName	: 'pageNo', //页码的参数名称，默认：page
-			limitName	: 'limit' //每页数据量的参数名，默认：limit
-		},
-		response	: {
-			countName	: 'total', //规定数据总数的字段名称，默认：count
-			dataName	: 'rows', //规定数据列表的字段名称，默认：data
-			statusName	: 'code', //规定数据状态的字段名称，默认：code
-			statusCode	: 200, //规定成功的状态码，默认：0
-			msgName		: 'message' //规定状态信息的字段名称，默认：msg
-		},
 		cols 		: [ [ 
 			{ type	: 'checkbox', fixed : 'left' }, 
 			/*{ type: 'numbers'},*/
@@ -138,8 +114,7 @@
 			{ field	: 'status', title : '用户状态', unresize: true, width : 90, align : 'center', templet: '#switchTpl'}, 
 			{ field :'lock', title:'是否锁定', width:110, templet: '#"lockTpl"', unresize: true},
 			{ title	: '操作', width : 200, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
-		]],
-		skin: 'line'
+		]]
 	});
 	
 	//监听搜索

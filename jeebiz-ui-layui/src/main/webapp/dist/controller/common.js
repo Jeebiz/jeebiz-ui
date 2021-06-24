@@ -1,1 +1,0 @@
-layui.define(function(i){layui.$,layui.layer,layui.laytpl,layui.setter,layui.view;var a=layui.admin;a.events.logout=function(){a.exit()},i("common",{})});

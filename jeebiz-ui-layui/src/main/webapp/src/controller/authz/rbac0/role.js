@@ -8,12 +8,9 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 	var $ = layui.$, setter = layui.setter, view = layui.view, admin = layui.admin, table = layui.table, form = layui.form;
 	form.render();
 	//角色管理
-	table.render(admin.wrap({
+	admin.table({
 		elem 		: '#LAY-role-list',
 		url 		: setter.prefix + '/authz/role/list', // 数据查询接口
-		page		: true,
-		height		: 'full-220',
-		limit		: 30,
 		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 	      title: '提示'
 	      ,layEvent: 'LAYTABLE_TIPS'
@@ -27,9 +24,8 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 			{ field: 'users', minWidth: 80, title: '用户数', align : 'center'},
 			{ field: 'status', title : '角色状态', unresize: true, width: 100, align : 'center', templet: '#switchTpl'}, 
 			{ title: '操作', minWidth : 180, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
-		]],
-		skin	: 'line'
-	}));
+		]]
+	});
 	
 	// 监听搜索
 	form.on('submit(LAY-role-search)', function(data) {

@@ -7,12 +7,9 @@ layui.define([ 'table', 'form' ], function(exports) {
 	form.render();
   	
 	// 文章管理
-	table.render(admin.wrap({
+	admin.table({
 		elem 	: '#LAY-keyvalue-list',
 		url 	: setter.prefix + '/dict/keyvalue/list', // 数据查询接口
-		contentType	: "application/json",
-		page	: true,
-	    method	: 'POST', //如果无需自定义HTTP类型，可不加该参数
 		cols 	: [ [
             {type: 'checkbox', fixed: 'left'},
             {field: 'gtext', title: '字典类型', minWidth: 100},
@@ -21,9 +18,8 @@ layui.define([ 'table', 'form' ], function(exports) {
 			{ field : 'status',	title : '字典状态',  templet: '#switchTpl', unresize: true, minWidth : 80, align : 'center' }, 
 			{ field : 'orderBy', title : '显示顺序',  width : 100 }, 
 			{ title : '操作', width : 80, align : 'center', fixed : 'right', toolbar : '#table-opt-list'} 
-		]],
-	    skin: 'line'
-	}));
+		]]
+	});
 	
 	//监听搜索
 	form.on('submit(LAY-keyvalue-search)', function(data) {
