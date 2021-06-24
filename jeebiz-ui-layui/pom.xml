@@ -7,42 +7,7 @@
 		<artifactId>jeebiz-ui</artifactId>
 		<version>1.0.0-ce-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>jeebiz-ui-layui</artifactId>
-	<packaging>war</packaging>
-	
-	<properties>
-		<maven-war-plugin.version>3.2.3</maven-war-plugin.version>
-	</properties>
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
-				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-war-plugin</artifactId>
-				    <version>${maven-war-plugin.version}</version>
-				    <configuration>
-				    	<failOnMissingWebXml>false</failOnMissingWebXml>
-				    </configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>  
-	            <artifactId>maven-war-plugin</artifactId>  
-	        </plugin>  
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-			    	<!-- <jettyXml>jetty.xml,jetty-http.xml,jetty-ssl.xml,jetty-https.xml</jettyXml> -->
-			    	<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
-			  	</configuration>	
-			</plugin>
-		</plugins>
-	</build>
+	<packaging>pom</packaging>
 
 </project>
