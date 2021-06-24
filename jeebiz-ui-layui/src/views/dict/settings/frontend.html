@@ -1,0 +1,77 @@
+
+  	<title>网站设置</title>
+  	
+	<style type="text/css">
+	.layui-form-item .layui-form-label{
+		width: 120px;
+	}
+	</style>
+
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header" th:text="${#ctx.httpSession}">网站设置</div>
+					<div class="layui-card-body" pad15>
+						<div class="layui-form" wid100 lay-filter="">
+							<div class="layui-form-item" th:each="item,itemStat:${list}">
+								<label class="layui-form-label" th:text="${item.label}">标签</label>
+								<!-- 数据展示类型：（text,textarea,password,checkbox,radio,file,image,color,date,datetime,email,month,number,range,select,switch,tel,time,week,ur）  -->
+								<div class="layui-input-block" 
+									th:class="${item.remark != null && item.remark.length() > 0} ? 'layui-input-inline' : 'layui-input-block'"
+									th:switch="${item.type}" 
+									th:style=" ${item.type != 'textarea' && item.type != 'switch' }? 'width: 60%;' :'' ">
+									<textarea th:case="'textarea'"
+										th:attr="lay-verify=''+${item.rules}+''" 
+										th:data="${item.id}" 
+										th:name="${item.key}" 
+										th:placeholder="${item.placeholder}"
+										th:text="${item.value}"
+										class="layui-textarea"></textarea>
+									<select th:case="'select'" 
+										th:attr="lay-verify=''+${item.rules}+''" 
+										th:data="${item.id}" 
+										th:name="${item.key}" 
+										class="layui-input layui-unselect">
+										<option value="">请选择一个城市</option>
+										<option value="010">北京</option>
+										<option value="021">上海</option>
+										<option value="0571">杭州</option>
+									</select>
+									<input th:case="'switch'" lay-filter="set_switch" 
+										th:attr="lay-verify=''+${item.rules}+''"
+										th:data="${item.id}" 
+										th:name="${item.key}" 
+										th:value="${item.value}"
+										th:checked="${item.value == 'false'}" 
+										type="checkbox" lay-skin="switch" lay-text="ON|OFF"/>
+									<input th:case="*" 
+										th:attr="lay-verify=''+${item.rules}+''"
+										th:data="${item.id}"  
+										th:name="${item.key}" 
+										th:placeholder="${item.placeholder}" 
+										th:type="${item.type}" 
+										th:value="${item.value}" 
+										class="layui-input" />
+								</div>
+								<div class="layui-input-inline layui-input-company"
+									th:if="${item.unit} != null " th:text="${item.unit}">单位</div>
+								<div class="layui-form-mid layui-word-aux"
+									th:if="${item.remark} != null " th:text="${item.remark}">说明</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" lay-submit 
+									lay-filter="set_basedata" data-group="frontend">确认保存</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+ 
+  <script type="text/javascript" th:inline="javascript">
+ layui.use(['table', 'basedata/settings']); 
+  </script> 
