@@ -19,6 +19,7 @@
 /build
 /code
 node_modules/
+dist/
 /dist/
 MANIFEST.MF
 _site/
