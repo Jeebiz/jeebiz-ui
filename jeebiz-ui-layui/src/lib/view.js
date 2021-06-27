@@ -174,7 +174,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
           view.error(error);
         }
 
-        typeof error === 'function' && error(e, code);
+        typeof error === 'function' && error.apply(this, arguments);
       }
     }, options));
   };

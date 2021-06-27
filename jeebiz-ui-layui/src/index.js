@@ -1,4 +1,8 @@
-/** layui admin 主入口 */
+
+/*!
+ * 界面入口模块  
+ */
+ 
 layui.extend({
 	setter: 'config', // 配置模块'/;
 	admin: 'lib/admin', // 核心模块

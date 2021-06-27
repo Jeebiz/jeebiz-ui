@@ -8,17 +8,12 @@ var pkg = require('./package.json');
 
 // Gulp plugins
 var gulp = require('gulp'),
-  babel = require('gulp-babel'), //把es6语法解析成es5
   del = require('del'), // 删除文件
-  concat = require('gulp-concat'), // 合并
   connect = require('gulp-connect'), // http 服务
-  cssmin = require("gulp-clean-css"),
   header = require('gulp-header'),
   gulpif = require('gulp-if'),
-  htmlmin = require('gulp-htmlmin'), //压缩html里面的js，css，去除空格
   minify = require('gulp-css-minify'), // css 压缩 gulp-clean-css
   minimist = require('minimist'),
-  rename = require('gulp-rename'),
   replace = require('gulp-replace'), // 替换
   stripdebug = require('gulp-strip-debug'),  // remove debugging code
   uglify = require('gulp-uglify') // 压缩
@@ -88,7 +83,6 @@ gulp.task('mincss', gulp.series(function(){
  */
 gulp.task('minjs', gulp.series(function(){
   return gulp.src(paths.scripts.src)
-    .pipe(gulpif(options.env != 'dev', babel()))
     .pipe(gulpif(options.env != 'dev', stripdebug()))
     .pipe(uglify({
       output: {
