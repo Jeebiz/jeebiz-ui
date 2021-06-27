@@ -25,8 +25,9 @@ var gulp = require('gulp'),
   ;
 
 var knownOptions = {
-  string: ['dest','pack','env','port'],
+  string: ['src','dest','pack','env','port'],
   default: {
+    src : './src',
     dest: './dist',                     // 构建的目标目录
     pack: '../pack/jeebiz-ui-layui.pack/'+ pkg.name +'-v' + pkg.version, // 发行版本目录
     env : process.env.NODE_ENV || 'dev',  // 构建的环境
@@ -62,7 +63,7 @@ var paths = {
  * Promise, a Stream or take a callback and call it
  */
 gulp.task("clean", gulp.series(function(cb){
-  return del([options.dest + '/*'], cb);
+  return del([options.dest] + "/*", cb);
 }));
 
 /*
@@ -99,48 +100,39 @@ gulp.task('minjs', gulp.series(function(){
 }));
 
 // 4、复制文件夹
-gulp.task('copy', gulp.series(function(cb){
+gulp.task('copyjs', gulp.series(function(cb){
 
   gulp.src('./src/config.js').pipe(gulp.dest(options.dest));
 
   gulp.src('./src/lib/extend/**/*').pipe(gulp.dest(options.dest + '/lib/extend'));
   
-  gulp.src('./src/style/res/**/*').pipe(gulp.dest(options.dest + '/style/res'));
-  
-  gulp.src('./src/views/**/*').pipe(gulp.dest(options.dest + '/views'));
+  gulp.src('./src/style/res/**/*').pipe(gulp.dest(options.dest + '/style/res'));  
 
-  gulp.src('./layui/**').pipe(gulp.dest(options.dest + '/layui'))
-  
-  return gulp.src('./index.html')
-      .pipe(replace(/\<\!-- clear s --\>([\s\S]*?)\<\!-- clear e --\>/, ''))
-      .pipe(replace("base: '../src/'", "base: '../'"))
-      .pipe(replace('@@version@@', pkg.version))
-      .pipe(gulp.dest(options.dest));
+  return gulp.src('./layui/**').pipe(gulp.dest(options.dest + '/layui'));  
   
 }));
 
-gulp.task("copy-index", gulp.series(function(cb){
+gulp.task("copyview", gulp.series(function(cb){
+  return gulp.src('./src/views/**/*').pipe(gulp.dest(options.dest + '/views'));
+}));
+
+gulp.task("copyindex", gulp.series(function(cb){
   // 复制并转义宿主页面
-  gulp.src('./index.html')
+  return gulp.src('./index.html')
     .pipe(replace(/\<\!-- clear s --\>([\s\S]*?)\<\!-- clear e --\>/, ''))
-    .pipe(replace("base: '../src/'", "base: '../'"))
-    .pipe(replace('@@version@@', pkg.version))
+    .pipe(gulpif(options.env != 'dev', replace("base    : '../src/'", "base: '../'")))
+    .pipe(gulpif(options.env != 'dev', replace('@@version@@', pkg.version)))
     .pipe(gulp.dest(options.dest));
 }));
 
 gulp.task("reload", gulp.series(function(){
-	gulp.src(options.dest + "/**/*.html").pipe(connect.reload());
-}));
-
-gulp.task("watch", gulp.series(function(){//监听任务
-	gulp.watch("./index.html", gulp.series("copy-index"));
-	gulp.watch(options.dest + "/**/*.*", gulp.series('reload')); // 监听dist下所有文件
+	return gulp.src(options.dest + "/**/*.html").pipe(connect.reload());
 }));
 
 // gulp build --env dev     保留debug信息
 // gulp build --env release 去除debug信息
 // 执行多个任务gulp4的用法 gulp.series()串行，gulp.parallel()并行
-gulp.task('build', gulp.series('clean', gulp.parallel('minjs','mincss'), 'copy', function(cb){
+gulp.task('build', gulp.series('clean', gulp.parallel('minjs','mincss'), gulp.parallel('copyjs', 'copyview', 'copyindex'), function(cb){
 
   console.log(' 编译成功!!! ');
 
@@ -151,13 +143,16 @@ gulp.task('build', gulp.series('clean', gulp.parallel('minjs','mincss'), 'copy',
 // gulp run --env dev     监听src目录启动服务
 // gulp run --env prod    监听dist目录启动服务
 // 执行多个任务gulp4的用法 gulp.series()串行，gulp.parallel()并行
-gulp.task('run', gulp.series('clean', gulp.parallel('minjs','mincss'), 'copy', "watch", function(cb){
+gulp.task('run', gulp.series('clean', gulp.parallel('minjs','mincss'), gulp.parallel('copyjs', 'copyview', 'copyindex'), function(cb){
 
   connect.server({
-		root      : options.env != 'dev' ? options.dest : './src',
+		root      : options.env != 'dev' ? options.dest : './',
 		livereload: true,
 		port      : options.port
 	});
+
+  gulp.watch("./index.html", gulp.series("copyindex"));
+	return gulp.watch((options.env != 'dev' ? options.dest : options.src) + "/**/*.*", gulp.series('reload')); // 监听dist下所有文件
 
 }));
 

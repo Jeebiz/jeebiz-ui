@@ -80,7 +80,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
     }
-    console.log(options.headers, "headers2");
     if(request.language){
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
@@ -91,9 +90,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
     return $.ajax($.extend({
       type			: 'get',
-      dataType		: 'json',
+      dataType	: 'json',
       success		: function (res) {
-		console.log("res", res);
         var statusCode = response.statusCode;
         // 只有 response 的 code 一切正常才执行 done
         if (options.done && (res[response.statusName] == 0 || res[response.statusName] == statusCode.ok)) {
@@ -127,7 +125,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
               view.exit();
             });
             return;
-          } else if (setter.debug) {
+          } else if (setter.debug && res[response.statusName] != statusCode.ok ) {
             var error = [
               '<cite>Error：</cite> ' + (res[response.msgName] || '返回状态码异常'), debug()
             ].join('');

@@ -48,7 +48,38 @@ layui.define(['view', 'table', 'upload'], function(exports){
       on: function (events, callback) {
         return layui.onevent.call(this, setter.MOD_NAME, events, callback);
       },
-
+      // 权限
+      checkPerms: function () {
+        var permsArr = layui.data(setter.tableName)[setter.storage.permsName] || [];
+        if (permsArr.length == 0) {
+            return;
+        }
+        if (permsArr.length > 0) {
+            for (var i in permsArr) {
+                if (permsArr[i] == '*') {
+                    $("*[lay-perms]").show();
+                    return;
+                }
+            }
+        }
+        $("*[lay-perms]").each(function (index, domEle) {
+            var perms = $(domEle).attr("lay-perms");
+            if ($.type(perms) === "string" && $.inArray(permsArr, perms)) {
+                $(domEle).show();
+            }
+            else if ($.type(perms) === "array") {
+                var ownPerms = [];
+                $.each(perms, function (i, perm) {
+                    if ($.inArray(permsArr, perm)) {
+                        ownPerms.push(perm);
+                    }
+                });
+                if(ownPerms.length == perms.length){
+                    $(domEle).show();
+                }
+            }
+        });
+      },
       table: function (options) {
         var that = this,
           success = options.success,
@@ -389,6 +420,9 @@ layui.define(['view', 'table', 'upload'], function(exports){
 
       //……
     };
+    
+
+    layui.hasPerms = admin.hasPerms;
 
   //事件
   var events = admin.events = {
@@ -870,7 +904,7 @@ layui.define(['view', 'table', 'upload'], function(exports){
     //执行跳转
     location.hash = admin.correctRouter(href);
 
-    //如果为当前页，则执行刷新
+    // 如果为当前页，则执行刷新
     if (admin.correctRouter(href) === router.href) {
       admin.events.refresh();
     }

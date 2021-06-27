@@ -9,21 +9,25 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 		views: layui.cache.base + 'views/', // 视图所在目录
 		entry: 'index', //  默认视图文件名
 		engine: '.html', //  视图文件后缀名
-		pageTabs: false, //  是否开启页面选项卡功能。单页版不推荐开启
+		pageTabs: true, //  是否开启页面选项卡功能。单页版不推荐开启
 
 		name: 'Jeebiz Admin CE',
 		tableName: 'jeebizAdmin', //  本地存储表名
 		MOD_NAME: 'admin', //  模块事件名
 
-		debug: false, // 是否开启调试模式。如开启，接口异常时会抛出异常 URL 等信息
+		debug: true, // 是否开启调试模式。如开启，接口异常时会抛出异常 URL 等信息
 
 		interceptor: true, // 是否开启未登入拦截
 
 		//  自定义请求字段名称 
 		storage: {
-			headerName	: "X-Authorization",
-			tokenName	: "token",
-			language	: "X-Language"
+			headerName	: "X-Authorization", // Jwt Token
+			tokenName	: "token",		// Jwt Token
+			profileName	: "profile",	// 个人信息
+			roleName	: "role",		// 当前角色编码
+			rolesName	: "roles",		// 所有角色列表
+			permsName	: "perms",		// 权限标记列表
+			language	: "X-Language"	// 语言
 		},
 
 		//  是否自动携带请求字段
