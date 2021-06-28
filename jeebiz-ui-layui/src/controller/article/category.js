@@ -1,16 +1,18 @@
 /**
  * 角色管理功能
  */
-layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
-					
-	var $ = layui.$, setter = layui.setter, admin = layui.admin, table = layui.table, form = layui.form;
-	
+layui.define([ 'table', 'form' , 'authtree'], function(exports) {
+						
 	var $ = layui.$, setter = layui.setter, view = layui.view, admin = layui.admin, table = layui.table, form = layui.form;
+
 	form.render();
+
+	admin.checkPerms();
+
 	//角色管理
 	admin.table({
-		elem 		: '#LAY-role-list',
-		url 		: setter.prefix + '/authz/role/list', // 数据查询接口
+		elem 		: '#LAY-category-list',
+		url 		: setter.prefix + '/article/category/list', // 数据查询接口
 		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 	      title: '提示'
 	      ,layEvent: 'LAYTABLE_TIPS'
@@ -18,20 +20,22 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 	    }],
 		cols 		: [ [ 
 			{ type : 'checkbox', fixed : 'left' },  
-			{ field: 'name', title : '角色名称', minWidth : 100 }, 
-			{ field: 'type', title : '角色类型', unresize: true, minWidth: 100, align : 'left', templet: '#typeTpl' }, 
+			{ field: 'name', title : '分类名称', minWidth : 100 }, 
+			{ field: 'grade', title : '分类等级', unresize: true, minWidth: 100 }, 
+			{ field: 'intro', title : '分类简介', minWidth : 100 }, 
+			{ field: 'keywords', title : '分类关键字', minWidth : 100 }, 
 			{ field: 'time24', minWidth: 170, align : 'center', title: '创建时间'},
-			{ field: 'users', minWidth: 80, title: '用户数', align : 'center'},
-			{ field: 'status', title : '角色状态', unresize: true, width: 100, align : 'center', templet: '#switchTpl'}, 
+			{ field: 'uname', minWidth: 80, title: '创建人', align : 'center'},
+			{ field: 'status', title : '分类状态', unresize: true, width: 100, align : 'center', templet: '#switchTpl'}, 
 			{ title: '操作', minWidth : 180, align : 'center', fixed : 'right', toolbar : '#table-opt-list'}
 		]]
 	});
 	
 	// 监听搜索
-	form.on('submit(LAY-role-search)', function(data) {
+	form.on('submit(LAY-category-search)', function(data) {
 		var field = data.field;
 		//执行重载
-		table.reload('LAY-role-list', {
+		table.reload('LAY-category-list', {
 			where : field
 			, page: {
 				curr: 1
@@ -46,7 +50,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 			id = $(obj.elem).data("id");
 		// 提交更新
 		admin.req({
-			url			: setter.prefix + '/authz/role/status',
+			url			: setter.prefix + '/article/category/status',
 			type 		: "post",
 			contentType	: "application/json",
 			dataType	: "json",
@@ -69,7 +73,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 	});
 	 
 	// 监听行工具事件
-	table.on('tool(LAY-role-list)', function(obj){
+	table.on('tool(LAY-category-list)', function(obj){
 		var data = obj.data;
 		var id = data.id;
 		if(obj.event === 'detail'){
@@ -78,18 +82,18 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 				content: str, //注意，如果str是object，那么需要字符拼接。
 				title: '角色详情',
 				type: 2, 
-			 	content: '/src/views/authz/rbac0/role/new.html'
+			 	content: '/src/views/authz/rbac0/category/new.html'
 			});
  		} else if(obj.event === 'renew'){
 			layer.open({ 
 				type	: 2,
 				title	: '编辑角色',
-				content	: '/src/views/authz/rbac0/role/renew.html',
+				content	: '/src/views/authz/rbac0/category/renew.html',
 				area	: ['700px', '600px'],
 				btn		: ['确定', '取消'],
 				yes		: function(index, layero){
 					var iframeWindow = window['layui-layer-iframe'+ index],
-						submitID = 'LAY-role-submit',
+						submitID = 'LAY-category-submit',
 						submit = layero.find('iframe').contents().find('#'+ submitID);
 					//监听提交
 					iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
@@ -102,7 +106,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 						}
 						// 提交更新
 						admin.req({
-							url			: setter.prefix + 'authz/role/renew',
+							url			: setter.prefix + 'authz/category/renew',
 							type 		: "post",
 							contentType	: "application/json",
 							dataType	: "json",
@@ -112,7 +116,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 									layer.msg(res["msg"]||"", {
 											icon: 1
 									});
-									table.reload('LAY-role-list'); //刷新表格
+									table.reload('LAY-category-list'); //刷新表格
 										layer.close(index); //关闭弹层
 								} else {
 									layer.msg(res["msg"]||"", {
@@ -129,14 +133,14 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 		} else if(obj.event === 'delete'){
 			layer.confirm('确定删除选中的角色吗？', function(index){
 				admin.req({
-					url			: setter.prefix + 'authz/role/delete/' + id,
+					url			: setter.prefix + 'authz/category/delete/' + id,
 					type 		: "get",
 					success		: function(res){
 						if(res.status == 'success'){
 							layer.msg(res["msg"]||"", {
 									icon: 1
 							});
-							table.reload('LAY-role-list'); //刷新表格
+							table.reload('LAY-category-list'); //刷新表格
 						} else {
 							layer.msg(res["msg"]||"", {
 									icon: 2
@@ -153,17 +157,17 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 	var active = {
 		add: function(){
 			admin.popup({
-		        id		: 'LAY-role-add',
+		        id		: 'LAY-category-add',
 		        title	: '添加角色',
 		        area	: ['600px', '500px'],
 				btn		: ['确定', '取消'],
 		        success : function(layero, index){
-					layui.view(this.id).render('authz/rbac0/role/new').done(function(){
+					layui.view(this.id).render('authz/rbac0/category/new').done(function(){
 		            
-		        	  form.render(null, 'layuiadmin-form-role');
+		        	  form.render(null, 'layuiadmin-form-category');
 		            
 		           	  //提交
-		              form.on('submit(LAY-role-submit)', function(data){
+		              form.on('submit(LAY-category-submit)', function(data){
 		              	var field = data.field; //获取提交的字段
 						  field["perms"] = field["perms"].split(",");
 						for(var key in field ){
@@ -173,7 +177,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 						}
 						// 提交更新
 						admin.req({
-							url			: setter.prefix + 'authz/role/new',
+							url			: setter.prefix + 'authz/category/new',
 							type 		: "post",
 							contentType	: "application/json",
 							dataType	: "json",
@@ -184,7 +188,7 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 										icon: 1
 									});
 									//提交 Ajax 成功后，关闭当前弹层并重载表格
-					              	layui.table.reload('LAY-role-list'); //重载表格
+					              	layui.table.reload('LAY-category-list'); //重载表格
 					              	layer.close(index); //执行关闭 
 								} else {
 									layer.msg(res["message"]||"", {
@@ -205,5 +209,5 @@ layui.define([ 'table', 'form' , 'authtree' ], function(exports) {
 		active[type] ? active[type].call(this) : '';
 	});
 
-	exports('authz/rbac0/role', {})
+	exports('article/category', {})
 });

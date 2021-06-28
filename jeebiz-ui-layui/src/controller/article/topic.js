@@ -7,45 +7,15 @@ layui.define([ 'table', 'form' ], function(exports) {
 	
 	form.render();
 	
-	var headers = {};
-   	// 自动给 Request Headers 传入 token
-   	headers[setter.storage.headerName] = (layui.data(setter.tableName)[setter.storage.tokenName] || '');
-   	// 自动给 Request Headers 传入 token
-   	headers[setter.storage.language] = (layui.data(setter.tableName)[setter.storage.language] || 'zh_CN');
-    
 	// 用户管理
-	table.render({
-		elem 		: '#LAY-user-list',
-		url 		: setter.prefix + '/authz/user/list', // 用户查询接口
-		contentType	: "application/json",
-		page		: true,
-		height		: 'full-220',
-		limit		: 20,
-		method		: 'POST', //如果无需自定义HTTP类型，可不加该参数
-		headers		: headers,
+	admin.table({
+		elem 		: '#LAY-topic-list',
+		url 		: setter.prefix + '/article/topic/list', // 用户查询接口
 		defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 	      title: '提示'
 	      ,layEvent: 'LAYTABLE_TIPS'
 	      ,icon: 'layui-icon-tips'
 	    }],
-		page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-	      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-	      //curr: 5, //设定初始在第 5 页
-	      groups: 1, //只显示 1 个连续页码
-	      first: false, //不显示首页
-	      last: false //不显示尾页
-	    },
-		request		: {
-			pageName	: 'pageNo', //页码的参数名称，默认：page
-			limitName	: 'limit' //每页数据量的参数名，默认：limit
-		},
-		response	: {
-			countName	: 'total', //规定数据总数的字段名称，默认：count
-			dataName	: 'rows', //规定数据列表的字段名称，默认：data
-			statusName	: 'code', //规定数据状态的字段名称，默认：code
-			statusCode	: 200, //规定成功的状态码，默认：0
-			msgName		: 'message' //规定状态信息的字段名称，默认：msg
-		},
 		cols 		: [ [ 
 			{ type	: 'checkbox', fixed : 'left' }, 
 			/*{ type: 'numbers'},*/
@@ -68,10 +38,10 @@ layui.define([ 'table', 'form' ], function(exports) {
 	});
 	
 	//监听搜索
-	form.on('submit(LAY-user-search)', function(data) {
+	form.on('submit(LAY-topic-search)', function(data) {
 		var field = data.field;
 		//执行重载
-		table.reload('LAY-user-list', {
+		table.reload('LAY-topic-list', {
 			where : field, 
 			page: {
 				curr: 1
@@ -86,7 +56,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 			id = $(obj.elem).data("id");
 		// 提交更新
 		admin.req({
-			url			: setter.prefix + '/authz/user/status',
+			url			: setter.prefix + '/article/topic/status',
 			type 		: "post",
 			contentType	: "application/json",
 			dataType	: "json",
@@ -115,7 +85,7 @@ layui.define([ 'table', 'form' ], function(exports) {
   
   	
 	//监听单元格编辑
-	table.on('renew(LAY-user-list)', function(obj){
+	table.on('renew(LAY-topic-list)', function(obj){
 		var value = obj.value, //得到修改后的值
 			data = obj.data,   //得到所在行所有键值
 			field = obj.field; //得到字段
@@ -130,7 +100,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 		//console.log(rqData);
 		// 提交更新
 			admin.req({
-			url			: setter.prefix + 'authz/user/update',
+			url			: setter.prefix + 'authz/topic/update',
 			type 		: "POST",
 			contentType	: "application/json",
 			data		: JSON.stringify(rqData),
@@ -150,7 +120,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 	});
 	
 	//监听行工具事件
-	table.on('tool(LAY-user-list)', function(obj){
+	table.on('tool(LAY-topic-list)', function(obj){
 		var data = obj.data;
 		var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 		switch (layEvent) {
@@ -159,7 +129,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 					type	: 2,
 					title	: '用户详情',
 					area	: ['90%', '90%'],
-					content	: setter.prefix + 'authz/user/ext/ui/detail/' + data.id,
+					content	: setter.prefix + 'authz/topic/ext/ui/detail/' + data.id,
 					btnAlign: 'r',
 					btn		: ['确定'],
 					moveType: 1, //拖拽模式，0或者1
@@ -173,20 +143,20 @@ layui.define([ 'table', 'form' ], function(exports) {
 				layer.open({ 
 					type	: 2,
 					title	: '编辑用户',
-					content	: setter.prefix + 'authz/user/ext/ui/renew/' + data.id,
+					content	: setter.prefix + 'authz/topic/ext/ui/renew/' + data.id,
 					area	: ['90%', '90%'],
 					btn		: ['确定', '取消'],
 					moveType: 1, //拖拽模式，0或者1
 					yes		: function(index, layero){
 						var iframeWindow = window['layui-layer-iframe'+ index],
-							submitID = 'LAY-user-submit',
+							submitID = 'LAY-topic-submit',
 							submit = layero.find('iframe').contents().find('#'+ submitID);
 						//监听提交
 						iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 							var field = data.field; //获取提交的字段
 							// 提交更新
 								admin.req({
-								url			: setter.prefix + 'authz/user/ext/renew',
+								url			: setter.prefix + 'authz/topic/ext/renew',
 								type 		: "POST",
 								contentType	: "application/json",
 								dataType	: "json",
@@ -196,7 +166,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 										layer.msg(res["msg"]||"", {
 												icon: 1
 										});
-										table.reload('LAY-user-list'); //刷新表格
+										table.reload('LAY-topic-list'); //刷新表格
 											layer.close(index); //关闭弹层
 									} else {
 										layer.msg(res["msg"]||"", {
@@ -214,7 +184,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 			case 'delete': {  //表格行删除事件
 				layer.confirm('用户数据是系统重要数据（删除后将无法登录系统），确定继续操作吗？', function(index){
 						admin.req({
-							url			: setter.prefix + 'authz/user/delete',
+							url			: setter.prefix + 'authz/topic/delete',
 							type 		: "POST",
 							data		: {"ids" : data.id},
 							success		: function(res){
@@ -222,7 +192,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 									layer.msg(res["msg"]||"", {
 											icon: 2
 									});
-									table.reload('LAY-user-list'); //刷新表格
+									table.reload('LAY-topic-list'); //刷新表格
 								} else {
 									layer.msg(res["msg"]||"", {
 											icon: 2
@@ -240,7 +210,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 	var active = {
 		// 批量删除
 		batchdel	: function(){
-			var checkStatus = table.checkStatus('LAY-user-list'),
+			var checkStatus = table.checkStatus('LAY-topic-list'),
 				checkData = checkStatus.data; //得到选中的数据
 			if(checkData.length === 0){
 				return layer.msg('至少选择一条记录！');
@@ -251,7 +221,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 						ids.push(checkData[i].id);
 					}
 					admin.req({
-						url			: setter.prefix + 'authz/user/delete',
+						url			: setter.prefix + 'authz/topic/delete',
 						type 		: "post",
 						data		: {"ids" : ids.join(",")},
 						success		: function(res){
@@ -259,7 +229,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 								layer.msg(res["msg"]||"", {
 										icon: 2
 								});
-								table.reload('LAY-user-list'); //刷新表格
+								table.reload('LAY-topic-list'); //刷新表格
 							} else {
 								layer.msg(res["msg"]||"", {
 										icon: 2
@@ -271,7 +241,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 		},
 		// 重置密码
 		initpwd		: function(){
-			var checkStatus = table.checkStatus('LAY-user-list'),
+			var checkStatus = table.checkStatus('LAY-topic-list'),
 				checkData = checkStatus.data; //得到选中的数据
 			if(checkData.length === 0){
 				return layer.msg('至少选择一条记录！');
@@ -282,7 +252,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 						ids.push(checkData[i].id);
 					}
 					admin.req({
-						url			: setter.prefix + 'authz/user/ext/initpwd',
+						url			: setter.prefix + 'authz/topic/ext/initpwd',
 						type 		: "post",
 						data		: {"ids" : ids.join(","), "password":"123456"},
 						success		: function(res){
@@ -290,7 +260,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 								layer.msg(res["msg"]||"", {
 										icon: 1
 								});
-								table.reload('LAY-user-list'); //刷新表格
+								table.reload('LAY-topic-list'); //刷新表格
 							} else {
 								layer.msg(res["msg"]||"", {
 										icon: 2
@@ -306,19 +276,19 @@ layui.define([ 'table', 'form' ], function(exports) {
 			layer.open({ 
 				type	: 2,
 				title	: '添加用户',
-				content	: setter.prefix + 'authz/user/ext/ui/new',
+				content	: setter.prefix + 'authz/topic/ext/ui/new',
 				area	: ['90%', '90%'],
 				btn		: ['确定', '取消'],
 				yes		: function(index, layero){
 					var iframeWindow = window['layui-layer-iframe'+ index],
-						submitID = 'LAY-user-submit',
+						submitID = 'LAY-topic-submit',
 						submit = layero.find('iframe').contents().find('#'+ submitID);
 					//监听提交
 					iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 						var field = data.field; //获取提交的字段
 						// 提交更新
 							admin.req({
-							url			: setter.prefix + 'authz/user/ext/new',
+							url			: setter.prefix + 'authz/topic/ext/new',
 							type 		: "post",
 							contentType	: "application/json",
 							dataType	: "json",
@@ -328,7 +298,7 @@ layui.define([ 'table', 'form' ], function(exports) {
 									layer.msg(res["msg"]||"", {
 											icon: 1
 									});
-									table.reload('LAY-user-list'); //刷新表格
+									table.reload('LAY-topic-list'); //刷新表格
 										layer.close(index); //关闭弹层
 								} else {
 									layer.msg(res["msg"]||"", {
@@ -349,5 +319,5 @@ layui.define([ 'table', 'form' ], function(exports) {
 		active[type] ? active[type].call(this) : '';
 	});
 
-	exports('authz/rbac0/user', {})
+	exports('article/topic', {})
 });

@@ -1,17 +1,21 @@
-/** layui admin 主入口 */
+
+/*!
+ * 界面入口模块  
+ */
+ 
 layui.extend({
 	setter: 'config', // 配置模块'/;
 	admin: 'lib/admin', // 核心模块
 	view: 'lib/view', // 视图渲染模块
 	utils: 'lib/utils'
 }).define(['setter', 'admin', 'utils'], function (exports) {
-	var setter = layui.setter,
-		element = layui.element,
-		admin = layui.admin,
-		tabsPage = admin.tabsPage,
-		view = layui.view,
+	var setter 		= layui.setter,
+		element 	= layui.element,
+		admin 		= layui.admin,
+		tabsPage 	= admin.tabsPage,
+		view 		= layui.view,
 		//根据路由渲染页面
-		renderPage = function () {
+		renderPage 	= function () {
 			var router = layui.router(),
 				path = router.path,
 				pathURL = admin.correctRouter(router.path.join('/'))
@@ -31,7 +35,7 @@ layui.extend({
 			});
 			*/
 
-			//重置状态
+			// 重置状态
 			var reset = function (type) {
 				//renderPage.haveInit && layer.closeAll();
 				if (renderPage.haveInit) {

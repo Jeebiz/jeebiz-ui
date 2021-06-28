@@ -24,7 +24,7 @@ layui.define(function(exports){
   admin.events.logout = function(){
     // 清空本地记录的 token，并跳转到登入页
     admin.exit();
-    return;
+    //return;
     //执行退出接口
     admin.req({
       url: layui.setter.prefix + '/logout'
