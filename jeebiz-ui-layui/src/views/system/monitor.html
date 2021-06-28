@@ -1,0 +1,199 @@
+<title>服务监控</title>
+	  
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">系统安全</a>
+		<a><cite>服务监控</cite></a>
+	</div>
+</div>
+  
+
+<div class="layui-fluid" id="LAY-monitor-grid">
+    <div class="layui-row layui-col-space10">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header">CPU</div>
+          <div class="layui-card-body">
+            <table cellspacing="0" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="is-leaf"><div class="cell">属性</div></th>
+                    <th class="is-leaf"><div class="cell">值</div></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="cell">核心数</div></td>
+                    <td><div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">用户使用率</div></td>
+                    <td><div class="cell" v-if="server.cpu">{{ server.cpu.used }}%</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">系统使用率</div></td>
+                    <td><div class="cell" v-if="server.cpu">{{ server.cpu.sys }}%</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">当前空闲率</div></td>
+                    <td><div class="cell" v-if="server.cpu">{{ server.cpu.free }}%</div></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-card">
+          <div class="layui-card-header">内存</div>
+          <div class="layui-card-body">
+            <table cellspacing="0" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="is-leaf"><div class="cell">属性</div></th>
+                    <th class="is-leaf"><div class="cell">内存</div></th>
+                    <th class="is-leaf"><div class="cell">JVM</div></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="cell">总内存</div></td>
+                    <td><div class="cell" v-if="server.mem">{{ server.mem.total }}G</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.total }}M</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">已用内存</div></td>
+                    <td><div class="cell" v-if="server.mem">{{ server.mem.used}}G</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.used}}M</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">剩余内存</div></td>
+                    <td><div class="cell" v-if="server.mem">{{ server.mem.free }}G</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.free }}M</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">使用率</div></td>
+                    <td><div class="cell" v-if="server.mem" :class="{'text-danger': server.mem.usage > 80}">{{ server.mem.usage }}%</div></td>
+                    <td><div class="cell" v-if="server.jvm" :class="{'text-danger': server.jvm.usage > 80}">{{ server.jvm.usage }}%</div></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">服务器信息</div>
+          <div class="layui-card-body">
+            <table cellspacing="0" style="width: 100%;">
+                <tbody>
+                  <tr>
+                    <td><div class="cell">服务器名称</div></td>
+                    <td><div class="cell" v-if="server.sys">{{ server.sys.computerName }}</div></td>
+                    <td><div class="cell">操作系统</div></td>
+                    <td><div class="cell" v-if="server.sys">{{ server.sys.osName }}</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">服务器IP</div></td>
+                    <td><div class="cell" v-if="server.sys">{{ server.sys.computerIp }}</div></td>
+                    <td><div class="cell">系统架构</div></td>
+                    <td><div class="cell" v-if="server.sys">{{ server.sys.osArch }}</div></td>
+                  </tr>
+                </tbody>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">Java虚拟机信息</div>
+          <div class="layui-card-body">
+            <table cellspacing="0" style="width: 100%;">
+                <tbody>
+                  <tr>
+                    <td><div class="cell">Java名称</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.name }}</div></td>
+                    <td><div class="cell">Java版本</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.version }}</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell">启动时间</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.startTime }}</div></td>
+                    <td><div class="cell">运行时长</div></td>
+                    <td><div class="cell" v-if="server.jvm">{{ server.jvm.runTime }}</div></td>
+                  </tr>
+                  <tr>
+                    <td colspan="1"><div class="cell">安装路径</div></td>
+                    <td colspan="3"><div class="cell" v-if="server.jvm">{{ server.jvm.home }}</div></td>
+                  </tr>
+                  <tr>
+                    <td colspan="1"><div class="cell">项目路径</div></td>
+                    <td colspan="3"><div class="cell" v-if="server.sys">{{ server.sys.userDir }}</div></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">磁盘状态</div>
+          <div class="layui-card-body">
+            <table cellspacing="0" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="is-leaf"><div class="cell">盘符路径</div></th>
+                    <th class="is-leaf"><div class="cell">文件系统</div></th>
+                    <th class="is-leaf"><div class="cell">盘符类型</div></th>
+                    <th class="is-leaf"><div class="cell">总大小</div></th>
+                    <th class="is-leaf"><div class="cell">可用大小</div></th>
+                    <th class="is-leaf"><div class="cell">已用大小</div></th>
+                    <th class="is-leaf"><div class="cell">已用百分比</div></th>
+                  </tr>
+                </thead>
+                <tbody v-if="server.sysFiles">
+                  <tr v-for="sysFile in server.sysFiles">
+                    <td><div class="cell">{{ sysFile.dirName }}</div></td>
+                    <td><div class="cell">{{ sysFile.sysTypeName }}</div></td>
+                    <td><div class="cell">{{ sysFile.typeName }}</div></td>
+                    <td><div class="cell">{{ sysFile.total }}</div></td>
+                    <td><div class="cell">{{ sysFile.free }}</div></td>
+                    <td><div class="cell">{{ sysFile.used }}</div></td>
+                    <td><div class="cell" :class="{'text-danger': sysFile.usage > 80}">{{ sysFile.usage }}%</div></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm5 layui-col-md3">
+        <div class="layui-card">
+          <div class="layui-card-header"></div>
+          <div class="layui-card-body">
+            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea">
+                <div carousel-item id="LAY-index-heaparea">
+                  <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm5 layui-col-md3">
+        <div class="layui-card">
+          <div class="layui-card-header"></div>
+          <div class="layui-card-body"></div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm5 layui-col-md3">
+        <div class="layui-card">
+          <div class="layui-card-header"></div>
+          <div class="layui-card-body"></div>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  
+<script type="text/javascript">   
+layui.use('monitor', layui.factory('monitor'));
+</script>
