@@ -14,7 +14,7 @@
       </li>-->
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
         <a href="http://www.baidu.com#/" target="_blank" title="前台">
-          <i class="layui-icon layui-icon-website"></i>
+          <i class="layui-icon layui-icon-release"></i>
         </a>
       </li>
       <li class="layui-nav-item" lay-unselect>
@@ -23,22 +23,22 @@
         </a>
       </li>
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
-        <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords="> 
+        <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
       </li>
     </ul>
     <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-      
+
       <li class="layui-nav-item" lay-unselect>
         <a lay-href="app/message/" layadmin-event="message">
           <i class="layui-icon layui-icon-notice"> 消息</i>
-          
+
           <!-- 如果有新消息，则显示小圆点 -->
           <script type="text/html" template lay-url="{{ layui.setter.prefix }}/inform/pending">
-          {{# if(d.data.newmsg){ }} 
+          {{# if(d.data.newmsg){ }}
             <span class="layui-badge-dot"></span>
           {{# } }}
           </script>
-          
+
         </a>
       </li>
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -48,7 +48,7 @@
       </li>
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
         <a href="javascript:;" layadmin-event="note">
-          <i class="layui-icon layui-icon-note"> 标签</i> 
+          <i class="layui-icon layui-icon-note"> 标签</i>
         </a>
       </li>
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -57,7 +57,7 @@
         </a>
       </li>
       <li class="layui-nav-item" lay-unselect>
-        <script type="text/html" template lay-url="{{ layui.setter.prefix }}/authz/user/profile" 
+        <script type="text/html" template lay-url="{{ layui.setter.prefix }}/authz/user/profile"
         lay-done="layui.element.render('nav', 'layadmin-layout-right');">
           <a href="javascript:;">
             <cite>{{ d.data.nickname }}</cite>
@@ -70,7 +70,7 @@
           </dl>
         </script>
       </li>
-      
+
       <li class="layui-nav-item layui-hide-xs" lay-unselect>
         <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
       </li>
@@ -79,68 +79,68 @@
       </li>
     </ul>
   </div>
-  
+
   <!-- 侧边菜单 -->
   <div class="layui-side layui-side-menu">
     <div class="layui-side-scroll">
-      <script type="text/html" template lay-url="{{ layui.setter.prefix }}/feature/nav?v={{ layui.admin.v }}" 
-      lay-done="layui.element.render('nav', 'layadmin-system-side-menu');" id="TPL_layout">
-      
+      <script type="text/html" template lay-url="{{ layui.setter.prefix }}/feature/nav?v={{ layui.admin.v }}"
+      lay-done="layui.element.render('nav', 'layadmin-system-side-menu');"
+      lay-setKey="features" id="TPL_layout">
+
         <div class="layui-logo" lay-href="">
 			<img src="layui/images/logo.png" class="layui-nav-img"> <span>{{ layui.setter.name || 'Jeebiz Admin' }}</span>
         </div>
-        
+
         <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-        {{# 
+        {{#
           var path =  layui.router().path
           ,pathURL = layui.admin.correctRouter(path.join('/'))
           ,dataName = layui.setter.response.dataName;
-          
-          layui.each(d[dataName], function(index, item){ 
+
+          layui.each(d[dataName], function(index, item){
             var hasChildren = typeof item.children === 'object' && item.children.length > 0
             ,classSelected = function(){
-              var match = path[0] == item.name || (index == 0 && !path[0]) 
-              || (item.url && pathURL == layui.admin.correctRouter(item.url)) || item.spread;
+              var match = path[0] == item.name || (index == 0 && !path[0])
+              || (item.component && pathURL == layui.admin.correctRouter(item.component)) || item.spread;
               if(match){
                 return hasChildren ? 'layui-nav-itemed' : 'layui-this';
               }
               return '';
             }
-            ,url = (item.url && typeof item.url === 'string') ? item.url : item.name;
+            ,url = (item.component && typeof item.component === 'string') ? item.component : item.path;
         }}
-          <li data-name="{{ item.name || '' }}" data-jump="{{ item.url || '' }}" class="layui-nav-item {{ classSelected() }}">
+          <li data-name="{{ item.name || '' }}" data-jump="{{ item.path || '' }}" class="layui-nav-item {{ classSelected() }}">
             <a href="javascript:;" {{ hasChildren ? '' : 'lay-href="'+ url +'"' }} lay-tips="{{ item.label }}" lay-direction="2" >
               <i class="layui-icon {{ item.icon }}"></i>
               <cite>{{ item.label }}</cite>
             </a>
             {{# if(hasChildren){ }}
               <dl class="layui-nav-child">
-              {{# layui.each(item.children, function(index2, item2){ 
+              {{# layui.each(item.children, function(index2, item2){
                 var hasChildren2 = typeof item2.children == 'object' && item2.children.length > 0
                 ,classSelected2 = function(){
-                  var match = (path[0] == item.name && path[1] == item2.name) 
-                  || (item2.url && pathURL == layui.admin.correctRouter(item2.url)) || item2.spread;
+                  var match = (path[0] == item.name && path[1] == item2.name)
+                  || (item2.component && pathURL == layui.admin.correctRouter(item2.component)) || item2.spread;
                   if(match){
                     return hasChildren2 ? 'layui-nav-itemed' : 'layui-this';
                   }
                   return '';
                 }
-                ,url2 = (item2.url && typeof item2.url === 'string') ? item2.url 
-                : [item.name, item2.name, ''].join('/');
+                ,url2 = (item2.component && typeof item2.component === 'string') ? item2.component
+                : [item.path, item2.path, ''].join('/');
               }}
-                <dd  data-name="{{ item2.name || '' }}"  data-jump="{{ item2.url || '' }}" 
+                <dd class="nav-child2" data-name="{{ item2.name || '' }}"  data-jump="{{ item2.component || '' }}"
                 {{ classSelected2() ? ('class="'+ classSelected2() +'"') : '' }}>
-                  <a href="javascript:;" {{ hasChildren2 ? '' : 'lay-href="'+ url2 +'"' }}>{{ item2.label }}</a>
+
+                  <a href="javascript:;" {{ hasChildren2 ? '' : 'lay-href="'+ url2 +'"' }}><i class="layui-icon {{ item2.icon }}"></i>{{ item2.label }}</a>
                   {{# if(hasChildren2){ }}
                     <dl class="layui-nav-child">
-                      {{# layui.each(item2.children, function(index3, item3){ 
-                        var match = (path[0] == item.name && path[1] == item2.name && path[2] == item3.name) 
-                        || (item3.url && pathURL == layui.admin.correctRouter(item3.url))
-                        ,url3 = (item3.url && typeof item3.url === 'string') 
-                          ? item3.url 
-                        : [item.name, item2.name, item3.name].join('/')
+                      {{# layui.each(item2.children, function(index3, item3){
+                        var match = (path[0] == item.name && path[1] == item2.name && path[2] == item3.name)
+                        || (item3.component && pathURL == layui.admin.correctRouter(item3.component))
+                        ,url3 = (item3.component && typeof item3.component === 'string') ? item3.component : item3.path
                       }}
-                        <dd data-name="{{ item3.name || '' }}"  data-jump="{{ item3.url || '' }}" 
+                        <dd class="nav-child3" data-name="{{ item3.name || '' }}"  data-jump="{{ item3.component || '' }}"
                         {{ match ? 'class="layui-this"' : '' }}>
                           <a href="javascript:;" lay-href="{{ url3 }}" {{ item3.iframe ? 'lay-iframe="true"' : '' }}>{{ item3.label }}</a>
                         </dd>
@@ -157,7 +157,7 @@
       </script>
     </div>
   </div>
-  
+
 
   <!-- 页面标签 -->
   <script type="text/html" template lay-done="layui.element.render('nav', 'layadmin-pagetabs-nav')">
@@ -185,14 +185,14 @@
     </div>
     {{# } }}
   </script>
-  
-  
+
+
   <!-- 主体内容 -->
   <div class="layui-body" id="LAY_app_body">
     <div class="layadmin-tabsbody-item layui-show"></div>
   </div>
-  
+
   <!-- 辅助元素，一般用于移动设备下遮罩 -->
   <div class="layadmin-body-shade" layadmin-event="shade"></div>
-  
+
 </div>

@@ -10,6 +10,10 @@
 dist/  经过打包压缩后的文件，一般用于正式环境使用
 src/   源代码，一般用于开发环境
 
+
+// gulp run --env dev     监听src目录启动服务
+// gulp run --env prod    监听dist目录启动服务
+
 # 构建
 项目可采用 gulp 构建，gulpfile.js 是任务脚本，package.json 是任务配置文件
 step1：确保你的电脑已经安装好了 Node.js

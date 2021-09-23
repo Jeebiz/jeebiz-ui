@@ -1,6 +1,6 @@
 
 /*!
- * 界面视图模块  
+ * 界面视图模块
  */
 
 layui.define(['laytpl', 'layer'], function (exports) {
@@ -83,8 +83,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
     if(request.language){
     	// 自动给 Request Headers 传入 token
     	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
-    }    
- 
+    }
+
     delete options.success;
     delete options.error;
 
@@ -318,6 +318,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
         var dataElem = elemTemp.eq(i - 1),
           layDone = dataElem.attr('lay-done') || dataElem.attr('lay-then') //获取回调
           ,
+          setKey = dataElem.attr('lay-setkey')  //获取结果存储key
+          ,
           url = laytpl(dataElem.attr('lay-url') || '').render(router) //接口 url
           ,
           data = laytpl(dataElem.attr('lay-data') || '').render(router) //接口参数
@@ -346,6 +348,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
             dataType: 'json',
             headers: headers,
             success: function (res) {
+              if(setKey){
+                layui.data(setter.tableName, {
+                  key: setKey,
+                  value: res.data || []
+                });
+              }
               fn({
                 dataElem: dataElem,
                 res: res,
