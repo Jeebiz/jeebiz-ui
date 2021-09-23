@@ -26,7 +26,7 @@ var knownOptions = {
     dest: './dist',                     // 构建的目标目录
     pack: '../pack/jeebiz-ui-layui.pack/'+ pkg.name +'-v' + pkg.version, // 发行版本目录
     env : process.env.NODE_ENV || 'dev',  // 构建的环境
-    port: 8080
+    port: 8081
   }
 };
 
@@ -51,7 +51,7 @@ var paths = {
   }
 };
 
-/* 
+/*
  * 1、清理目录任务
  * Not all tasks need to use streams, a gulpfile is just another node program
  * and you can use all packages available on npm, but it must return either a
@@ -68,11 +68,11 @@ gulp.task('mincss', gulp.series(function(){
 
   var src = noteNew = JSON.parse(JSON.stringify(note));
     noteNew[1].js = '';
-  
-  return gulp.src(paths.styles.src)   
+
+  return gulp.src(paths.styles.src)
     .pipe(minify({
       compatibility: 'ie7'
-    }))  
+    }))
     .pipe(header.apply(null, noteNew))
     .pipe(gulp.dest(paths.styles.dest));
 
@@ -99,11 +99,11 @@ gulp.task('copyjs', gulp.series(function(cb){
   gulp.src('./src/config.js').pipe(gulp.dest(options.dest));
 
   gulp.src('./src/lib/extend/**/*').pipe(gulp.dest(options.dest + '/lib/extend'));
-  
-  gulp.src('./src/style/res/**/*').pipe(gulp.dest(options.dest + '/style/res'));  
 
-  return gulp.src('./layui/**').pipe(gulp.dest(options.dest + '/layui'));  
-  
+  gulp.src('./src/style/res/**/*').pipe(gulp.dest(options.dest + '/style/res'));
+
+  return gulp.src('./layui/**').pipe(gulp.dest(options.dest + '/layui'));
+
 }));
 
 gulp.task("copyview", gulp.series(function(cb){
@@ -131,7 +131,7 @@ gulp.task('build', gulp.series('clean', gulp.parallel('minjs','mincss'), gulp.pa
   console.log(' 编译成功!!! ');
 
   cb();
-  
+
 }));
 
 // gulp run --env dev     监听src目录启动服务
@@ -152,12 +152,12 @@ gulp.task('run', gulp.series('clean', gulp.parallel('minjs','mincss'), gulp.para
 
 // 发行文件
 gulp.task('release', gulp.series(function(){ //命令：gulp build --env release
-  
+
   //复制核心文件
   gulp.src('./dist/**/*').pipe(gulp.dest(options.pack + '/dist'));
-  
+
   gulp.src('./src/**/*').pipe(gulp.dest(options.pack + '/src'));
- 
+
   // 复制并转义宿主页面
   gulp.src('./dev/index.html')
     .pipe(replace(/\<\!-- clear s --\>([\s\S]*?)\<\!-- clear e --\>/, ''))
@@ -166,15 +166,15 @@ gulp.task('release', gulp.series(function(){ //命令：gulp build --env release
     .pipe(replace('@@version@@', pkg.version))
     .pipe(gulp.dest('./start'))
     .pipe(gulp.dest(options.pack + '/start'));
-  
+
   // 复制帮助文件
   gulp.src([
     './帮助/*'
   ]).pipe(gulp.dest(releaseDir));
-  
+
   // 复制 gulpfile
   gulp.src(['gulpfile.js','package.json']).pipe(gulp.dest(options.pack));
-  
+
   // 复制 layui
   return gulp.src('./layui/**').pipe(gulp.dest(options.pack + '/layui'))
 

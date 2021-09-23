@@ -1,8 +1,8 @@
 
-/** 
- * admin.css 
+/**
+ * admin.css
  */
- 
+
 html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
 
 
@@ -30,13 +30,18 @@ html{background-color: #f2f2f2; color: #666;}
 *[lay-perms]{display: none;}
 
 /* 重置布局结构 */
-.layui-layout-admin .layui-header{position: fixed; top: 0; left: 0; width: 100%; height: 50px;} 
+.layui-layout-admin .layui-header{position: fixed; top: 0; left: 0; width: 100%; height: 50px;}
 
 /*
 .layui-layout-admin .layui-header .layui-layout-right .layui-nav-item a{color: #fff;}
 .layui-layout-admin .layui-header .layui-layout-right .layui-nav-item a cite{color: rgba(255,255,255,.7);}
 */
-
+.layui-nav-tree .layui-nav-child dd.nav-child2 {
+  margin-left: 18px;
+}
+.layui-nav-tree .layui-nav-child dd.nav-child3 {
+   margin-left: -15px;
+ }
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child a{color: #333;}
 .layui-layout-admin .layui-side{width: 220px; top: 0; z-index: 1001;}
 .layui-layout-admin .layui-logo,
@@ -73,21 +78,21 @@ html{background-color: #f2f2f2; color: #666;}
 
 /* 重置表格风格 */
 /*
-.layui-table th, 
-.layui-table td, 
+.layui-table th,
+.layui-table td,
 .layui-table[lay-skin="line"],
-.layui-table[lay-skin="row"], 
-.layui-table-view, 
+.layui-table[lay-skin="row"],
+.layui-table-view,
 .layui-table-header,
 .layui-table-tool,
 .layui-table-page,
 .layui-table-fixed-r,
 .layui-table-tips-main{border-color: #f6f6f6;}
 
-.layui-table thead tr, 
-.layui-table-header, 
+.layui-table thead tr,
+.layui-table-header,
 .layui-table-tool,
-.layui-table-patch, 
+.layui-table-patch,
 .layui-table-mend{background-color: #fff;}
 
 .layui-table[lay-even] tr:nth-child(even),
@@ -230,7 +235,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header a:hover{color: #000;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-more{border-top-color: #666}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-mored{border-color: transparent; border-bottom-color: #666;}
-.layui-layout-admin .layui-header .layui-nav .layui-this:after, 
+.layui-layout-admin .layui-header .layui-nav .layui-this:after,
 .layui-layout-admin .layui-header .layui-nav-bar{height: 2px; background-color: #20222A}
 .layui-layout-admin .layui-logo{background-color: #20222A; box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);}
 .layui-layout-admin .layui-logo,
@@ -247,9 +252,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /*
- 
+
  格局
- 
+
 */
 
 .layui-fluid{padding: 15px;}
@@ -261,9 +266,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /*
- 
+
  控制台
- 
+
 */
 
 
@@ -300,7 +305,7 @@ html{background-color: #f2f2f2; color: #666;}
 
 /* 版本信息 */
 .layadmin-version .layui-table{padding: 6px 0;}
-.layadmin-version .layui-table td, 
+.layadmin-version .layui-table td,
 .layadmin-version .layui-table th{line-height: 25px;}
 
 /* 数据概览 */
@@ -337,9 +342,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /********************************
- 
+
   其它主页开始
- 
+
 *******************************/
 
 /* 主页示例一 */
@@ -411,7 +416,7 @@ html{background-color: #f2f2f2; color: #666;}
 /*
 
  应用
- 
+
 */
 
 
@@ -432,9 +437,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /*
- 
+
  系统
- 
+
 */
 
 
@@ -508,13 +513,13 @@ html{background-color: #f2f2f2; color: #666;}
 */
 
 @media screen and (max-width: 768px) {
-  
+
   /* 产品清单模板 */
   .layadmin-panel-selection{margin: 0; width: auto;}
-  
+
   /* 导航 */
   .layui-body .layui-nav .layui-nav-item{display: block;}
-  
+
   /* 主体容器 */
   .layui-layout-admin .layui-body .layadmin-tabsbody-item{-webkit-overflow-scrolling: touch; overflow: auto;}
 }
