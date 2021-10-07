@@ -8,24 +8,24 @@
     <a><cite>我的资料</cite></a>
   </div>
 </div>
-  
+
 <div class="layui-fluid">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md12">
       <div class="layui-card">
         <div class="layui-card-header">设置我的资料</div>
         <div class="layui-card-body" pad15>
-          
+
           <div class="layui-form" lay-filter="">
             <div class="layui-form-item">
               <label class="layui-form-label">我的角色</label>
               <div class="layui-input-inline">
-                <select name="role" lay-verify="">
+                <select name="role" lay-verify="" disabled>
                   <option value="1" selected>超级管理员</option>
                   <option value="2" disabled>普通管理员</option>
                   <option value="3" disabled>审核员</option>
                   <option value="4" disabled>编辑人员</option>
-                </select> 
+                </select>
               </div>
               <div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>
             </div>
@@ -86,7 +86,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
