@@ -1,4 +1,4 @@
-<title>服务监控</title>
+  <title>服务监控</title>
 
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
@@ -259,8 +259,8 @@
                             </tr>
                         </thead>
                         <tbody v-if="server.sysFiles">
-                            {{# if(d.data.disks && d.data.disks.length > 0){ }} 
-                                {{#  layui.each(d.data.disks, function(index, disk){ }}     
+                            {{# if(d.data.disks && d.data.disks.length > 0){ }}
+                                {{#  layui.each(d.data.disks, function(index, disk){ }}
                                 <tr>
                                     <td>
                                         <div class="cell">{{ disk.mount }}</div>
@@ -284,22 +284,22 @@
                                         <div class="cell" {{# if(disk.usage > 80){ }}class="text-danger"{{#  } }} > {{ disk.usage }}%
                                         </div>
                                     </td>
-                                </tr>                              
+                                </tr>
                                 {{#  }); }}
-                            {{#  } else { }}    
+                            {{#  } else { }}
                             <tr>
                                 <td>
                                     <div class="cell">没有发现磁盘！</div>
-                                </td>                                
+                                </td>
                             </tr>
                             {{# } }}
-                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
+
         </script>
     </div>
 </div>
