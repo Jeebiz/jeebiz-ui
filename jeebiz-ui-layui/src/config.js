@@ -1,5 +1,5 @@
 /*!
- * 全局配置 
+ * 全局配置
  */
 layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 	exports('setter', {
@@ -19,22 +19,29 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 
 		interceptor: true, // 是否开启未登入拦截
 
-		//  自定义请求字段名称 
 		storage: {
-			headerName	: "X-Authorization", // Jwt Token
-			tokenName	: "token",		// Jwt Token
 			profileName	: "profile",	// 个人信息
 			roleName	: "role",		// 当前角色编码
 			rolesName	: "roles",		// 所有角色列表
 			permsName	: "perms",		// 权限标记列表
-			language	: "X-Language"	// 语言
+			appId		: "appId",		// 客户端ID
+			appChannel	: "appChannel",	// 客户端渠道
+			appVer		: "appVer",		// 客户端版本
+		},
+
+		//  自定义请求字段名称
+		headers: {
+			appId	        : "X-App-Id",
+			appChannel	  	: "X-App-Channel",
+			appVer	      	: "X-App-Ver",
+			authorization	: "X-Authorization",
+			language	    : "X-Language"
 		},
 
 		//  是否自动携带请求字段
 		request: {
-			headerName	: true, //  自动携带 header。可设置 false 不携带。
-			tokenName	: false, //  自动携带 token。可设置 false 不携带。
-			language	: true
+			authorization	: true,
+			language	    : true
 		},
 
 		// 自定义响应字段
@@ -62,8 +69,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 					"417": "服务器无法满足Expect的请求头信息",
 					"422": "无法处理的请求实体",
 					"423": "当前资源被锁定 ",
-					"424": "依赖导致的失败",
-					"424": "客户端应当切换到TLS/1.0",
+					"424": "由于之前的某个请求发生的错误，导致当前请求失败",
+					"426": "客户端应当切换到TLS/1.0",
 					"428": "要求先决条件",
 					"429": "太多请求",
 					"431": "请求头字段太大",
@@ -80,9 +87,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 					"509": "服务器达到带宽限制",
 					"510": "获取资源所需要的策略并没有没满足",
 					"511": "要求网络认证",
-					"500": "服务器内部错误，无法完成请求",
 				},
-				status: {
+				error: {
 					"10002": "认证请求方法不支持",
 					"10003": "登录失败次数超过最大限制，请输入验证码",
 					"10004": "验证码发送失败",
@@ -112,9 +118,13 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 					"10205": "服务器：未知方法异常",
 					"10206": "服务器：非法参数异常",
 					"10207": "服务器：数组越界异常",
-					"10208": "服务器：网络异常"
+					"10208": "服务器：网络异常",
+					'10011': '用户未注册',
+					'10012': '用户已注册',
+					'10030': 'Token签发失败',
+					'10035': '第三方授权服务端异常'
 				},
-				//  需要进行登录的状态码
+				// 鉴权不通过，需要登录的状态码
 				authz: {
 					"10009": "用户凭证已过期",
 					"10013": "用户帐号不存在",
@@ -136,8 +146,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 					"10029": "钉钉临时授权码错误",
 					"10031": "Token缺失",
 					"10032": "Token已过期",
-					"10033": "Token已失效"
-				},
+					"10033": "Token已失效",
+					'10034': 'Token错误'
+				}
 			},
 			msgName: 'message', // 状态信息的字段名称
 			dataName: 'data' // 数据详情的字段名称
@@ -176,21 +187,21 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 		theme: {
 			// 内置主题配色方案
 			color: [{
-				main: '#20222A', // 主题色					
-				selected: '#009688', // 选中色					
-				alias: 'default' // 默认别名			
-			}, 
+				main: '#20222A', // 主题色
+				selected: '#009688', // 选中色
+				alias: 'default' // 默认别名
+			},
 			{
-				main: '#1E9FFF', // 主题色					
+				main: '#1E9FFF', // 主题色
 				selected: '#1E9FFF', // 选中色
 				alias: 'yellow-blue' // 藏蓝
-			}, 
+			},
 			{
 				main: '#344058',
 				selected: '#344058',
 				alias: 'yellow-blue' // 藏蓝
-			}, 
-			
+			},
+
 			{
 				main: '#03152A',
 				selected: '#3B91FF',

@@ -55,6 +55,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
       success = options.success,
       error = options.error,
       storage = setter.storage,
+      headers = setter.storage,
       request = setter.request,
       response = setter.response,
       debug = function () {
@@ -65,24 +66,19 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
     options.data = options.data || {};
     options.headers = options.headers || {};
-    if (request.tokenName) {
-      var sendData = typeof options.data === 'string' ?
-        JSON.parse(options.data) :
-        options.data;
 
-      //自动给参数传入默认 token
-      options.data[storage.tokenName] = storage.tokenName in sendData ?
-        options.data[storage.tokenName] :
-        (layui.data(setter.tableName)[storage.tokenName] || '');
+    // 自动给 Request Headers 传入 X-App-Id、X-App-Channel、X-App-Ver
+    options.headers[headers.appId] = layui.data(setter.tableName)[storage.appId] || '';
+    options.headers[headers.appChannel] = layui.data(setter.tableName)[storage.appChannel] || '';
+    options.headers[headers.appVer] = layui.data(setter.tableName)[storage.appVer] || '';
 
-     }
-    if(request.headerName){
-    	// 自动给 Request Headers 传入 token
-    	options.headers[storage.headerName] = storage.headerName in options.headers ?  options.headers[storage.headerName] : (layui.data(setter.tableName)[storage.tokenName] || '');
+    // 自动给 Request Headers 传入 X-Authorization
+    if(request.authorization && !(headers.authorization in options.headers)){
+    	options.headers[headers.authorization] = layui.data(setter.tableName)[storage.tokenName] || '';
     }
-    if(request.language){
-    	// 自动给 Request Headers 传入 token
-    	options.headers[storage.language] = storage.language in options.headers ?  options.headers[storage.language] : (layui.data(setter.tableName)[storage.language] || 'zh_CN');
+    // 自动给 Request Headers 传入 X-Language
+    if(request.language && !(headers.language in options.headers)){
+    	options.headers[headers.language] = layui.data(setter.tableName)[storage.language] || 'zh_CN';
     }
 
     delete options.success;
@@ -90,7 +86,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
     return $.ajax($.extend({
       type			: 'get',
-      dataType	: 'json',
+      dataType	    : 'json',
       success		: function (res) {
         var statusCode = response.statusCode;
         // 只有 response 的 code 一切正常才执行 done
@@ -105,8 +101,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
         else {
           // 数据异常处理 : 全局提示
           var code = res[response.statusName];
-          if (statusCode.status[code]) {
-            var message = res[response.msgName] || statusCode.status[code];
+          if (statusCode.error[code]) {
+            var message = res[response.msgName] || statusCode.error[code] || statusCode.error['default'];
             console.log(message, code)
             layer.msg(message, {
               icon: 2,
@@ -147,8 +143,8 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
         var statusCode = response.statusCode;
         // 数据异常处理 : 全局提示
-        if (statusCode.status[code]) {
-          var message = res[response.msgName] || statusCode.status[code];
+        if (statusCode.error[code]) {
+          var message = res[response.msgName] || statusCode.error[code] || statusCode.error['default'];
           console.log(message, code)
           layer.msg(message, {
             icon: 2,
